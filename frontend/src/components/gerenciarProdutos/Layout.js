@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FaArrowLeft, FaUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";  // Importa o hook useNavigate
 import logoImage from "D:/EJAcotacoes/frontend/src/components/logo.png";
 
 // Estilização do conteiner superior
@@ -54,10 +55,12 @@ const Content = styled.div`
 
 // Organização do conteiner
 const Layout = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Container>
-        <IconButton>
+        <IconButton onClick={() => navigate(-1)}>
           <BackIcon />
           <Logo src={logoImage} alt="Logo" />
         </IconButton>
