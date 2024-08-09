@@ -35,7 +35,7 @@ const Input = styled.input`
   }
 `;
 
-// Estilização do icon de pesquisar
+// Estilização do ícone de pesquisar
 const SearchIcon = styled(FaSearch)`
   position: absolute;
   right: 12px;
@@ -46,8 +46,6 @@ const SearchIcon = styled(FaSearch)`
 
 // Função de pesquisa
 const SearchCli = ({ searchTerm, setSearchTerm, searchField }) => {
-
-  // Organização da barra de pesquisa
   return (
     <SearchWrapper>
       <InputWrapper>

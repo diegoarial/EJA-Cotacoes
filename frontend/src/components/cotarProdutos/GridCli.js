@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FiPlusCircle, FiMinusCircle, FiEye } from "react-icons/fi";
+import FormCli from "./FormCli";
 
 // Edição da tabela do Grid 
 const Table = styled.table`
@@ -122,35 +123,55 @@ const NumberInput = styled.input`
   }
 `;
 
-// Funções da tabela de dados
-const GridCli = ({ produtos, setProdutos, setOnEdit }) => {
-  const [setIsDeletePopupOpen] = useState(false);
-  const [setProductIdToDelete] = useState(null);
-  const [values, setValues] = useState({}); // Estado para valores individuais dos inputs
 
+const GridCli = ({ produtos }) => {
+  const [isFormCliOpen, setIsFormCliOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [values, setValues] = useState({});
 
-  // Função de Edição
-  const handleEdit = (item) => {
-    setOnEdit(item);
-  };
-  
-  // Abrir popup de confirmação de exclusão
-  const openDeletePopup = (idProduto) => {
-    setProductIdToDelete(idProduto);
-    setIsDeletePopupOpen(true);
+  const handleView = (item) => {
+    setSelectedProduct(item);
+    setIsFormCliOpen(true);
   };
 
-// Função para lidar com mudanças no input e permitir apenas números inteiros
-const handleInputChange = (e, idProduto) => {
-  const value = e.target.value;
-  // Permite apenas números inteiros ou uma string vazia
-  if (value === '' || /^\d+$/.test(value)) {
-    setValues((prevValues) => ({
-      ...prevValues,
-      [idProduto]: value
-    }));
-  }
-};
+  // Função para lidar com mudanças no input e permitir apenas números inteiros
+  const handleInputChange = (e, idProduto) => {
+    const value = e.target.value;
+    if (value === '' || /^\d+$/.test(value)) {
+      setValues((prevValues) => ({
+        ...prevValues,
+        [idProduto]: value
+      }));
+    }
+  };
+
+  // Função para aumentar o valor do input em 1
+  const incrementValue = (idProduto) => {
+    setValues((prevValues) => {
+      const currentValue = parseInt(prevValues[idProduto] || 0, 10);
+      return {
+        ...prevValues,
+        [idProduto]: currentValue + 1
+      };
+    });
+  };
+
+  // Função para diminuir o valor do input em 1
+  const decrementValue = (idProduto) => {
+    setValues((prevValues) => {
+      const currentValue = parseInt(prevValues[idProduto] || 0, 10);
+      return {
+        ...prevValues,
+        [idProduto]: Math.max(0, currentValue - 1)
+      };
+    });
+  };
+
+  // Função para fechar o popup
+  const handleClosePopup = () => {
+    setIsFormCliOpen(false);
+    setSelectedProduct(null);
+  };
 
   // Organização do grid
   return (
@@ -171,32 +192,38 @@ const handleInputChange = (e, idProduto) => {
             <Tr key={i}>
               <Td style={{ textAlign: "center" }} width="5%">
                 <IconContainer>
-                  <EyeIcon onClick={() => handleEdit(item)}/>
+                  <EyeIcon onClick={() => handleView(item)} />
                 </IconContainer>
               </Td>
               <Td width="50%">{item.titulo}</Td>
               <Td width="30%">{item.precoVenda}</Td>
               <Td style={{ textAlign: "center" }} width="5%">
                 <IconContainer>
-                  <PlusIcon onClick={() => handleEdit(item)} />
+                  <PlusIcon onClick={() => incrementValue(item.idProduto)} />
                 </IconContainer>
               </Td>
               <Td>
                 <NumberInput
-                  type="text" // Usando type="text" ao invés de number
+                  type="text"
                   value={values[item.idProduto] || ''}
                   onChange={(e) => handleInputChange(e, item.idProduto)}
                 />
               </Td>
               <Td style={{ textAlign: "center" }} width="5%">
                 <IconContainer>
-                  <MinusIcon onClick={() => openDeletePopup(item.idProduto)} />
+                  <MinusIcon onClick={() => decrementValue(item.idProduto)} />
                 </IconContainer>
               </Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
+      {isFormCliOpen && (
+        <FormCli
+          produto={selectedProduct}
+          onClose={handleClosePopup}
+        />
+      )}
     </>
   );
 };
