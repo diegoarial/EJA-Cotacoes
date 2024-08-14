@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import ProductsApp from './components/gerenciarProdutos/ProductsApp';
-import Cart from './components/Cart';
+import Cart from './components/enviarPedidoDeCompra/Cart';
 import Client from './components/cotarProdutos/Client';
 
 const App = () => {

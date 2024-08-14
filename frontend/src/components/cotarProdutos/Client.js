@@ -5,6 +5,8 @@ import LayoutCli from "./LayoutCli";
 import SearchCli from "./SearchCli";
 import GridCli from "./GridCli";
 import axios from "axios";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Estilização da página
 const Container = styled.div`
@@ -45,6 +47,7 @@ function Client() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProdutos, setFilteredProdutos] = useState([]);
   const [searchField, setSearchField] = useState("título");
+  const [values, setValues] = useState({});
 
   // Função para buscar os produtos do backend
   useEffect(() => {
@@ -76,6 +79,32 @@ function Client() {
     filterProdutos();
   }, [searchTerm, produtos]);
 
+  const handleAdicionarAoCarrinho = async () => {
+    const produtosAoCarrinho = filteredProdutos.filter(produto => values[produto.idProduto] > 0);
+
+    if (produtosAoCarrinho.length === 0) {
+      return;  // Não faz nada se nenhum produto foi selecionado
+    }
+
+    for (const produto of produtosAoCarrinho) {
+      try {
+        const response = await axios.post("http://localhost:8800/carrinho", {
+          idProduto: produto.idProduto,
+          quantidade: values[produto.idProduto],
+          precoVenda: produto.precoVenda
+        });
+
+        console.log(response.data);
+      } catch (error) {
+        console.error("Erro ao adicionar produto ao carrinho:", error);
+      }
+    }
+
+    toast.success("Produtos adicionados ao carrinho!", {
+      position: "bottom-left", // Define a posição no canto inferior esquerdo
+    });
+  };
+
   return (
     <>
       <LayoutCli />
@@ -87,13 +116,15 @@ function Client() {
           setSearchField={setSearchField}
         />
         <TopRightContainer>
-          <Button>
+          <Button onClick={handleAdicionarAoCarrinho}>
             Adicionar ao Carrinho
           </Button>
         </TopRightContainer>
         <GridCli
           produtos={filteredProdutos}
           setProdutos={setProdutos}
+          values={values}
+          setValues={setValues} // Para rastrear os valores dos inputs
         />
       </Container>
       <GlobalStyle />

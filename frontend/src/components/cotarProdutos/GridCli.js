@@ -89,8 +89,8 @@ const MinusIcon = styled(FiMinusCircle)`
 
 const EyeIcon = styled(FiEye)`
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   line-height: 16px;
   text-align: center;
   cursor: pointer;
@@ -179,9 +179,9 @@ const GridCli = ({ produtos }) => {
       <Table>
         <Thead>
           <Tr>
-            <Th></Th>
             <Th>Título</Th>
             <Th>Preço de Venda</Th>
+            <Th></Th>
             <Th></Th>
             <Th></Th>
             <Th></Th>
@@ -190,11 +190,6 @@ const GridCli = ({ produtos }) => {
         <Tbody>
           {produtos.map((item, i) => (
             <Tr key={i}>
-              <Td style={{ textAlign: "center" }} width="5%">
-                <IconContainer>
-                  <EyeIcon onClick={() => handleView(item)} />
-                </IconContainer>
-              </Td>
               <Td width="50%">{item.titulo}</Td>
               <Td width="30%">{item.precoVenda}</Td>
               <Td style={{ textAlign: "center" }} width="5%">
@@ -212,6 +207,11 @@ const GridCli = ({ produtos }) => {
               <Td style={{ textAlign: "center" }} width="5%">
                 <IconContainer>
                   <MinusIcon onClick={() => decrementValue(item.idProduto)} />
+                </IconContainer>
+              </Td>
+              <Td style={{ textAlign: "center" }} width="5%">
+                <IconContainer>
+                  <EyeIcon onClick={() => handleView(item)} />
                 </IconContainer>
               </Td>
             </Tr>
