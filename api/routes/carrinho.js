@@ -7,8 +7,8 @@ import {
 
 const carrinhoRoutes = express.Router();
 
-carrinhoRoutes.post("/carrinho", adicionarAoCarrinho);
-carrinhoRoutes.get("/carrinho/produtos", buscarProdutosDoCarrinho);
-carrinhoRoutes.get("/carrinho/cotacao", gerarCotacao);
+carrinhoRoutes.post("/", adicionarAoCarrinho);
+carrinhoRoutes.get("/produtos", buscarProdutosDoCarrinho);
+carrinhoRoutes.get("/cotacao", gerarCotacao);
 
 export default carrinhoRoutes;
