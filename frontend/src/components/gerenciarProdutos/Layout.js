@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FaArrowLeft, FaUser } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";  // Importa o hook useNavigate
+import { useNavigate } from "react-router-dom";
 import logoImage from "D:/EJAcotacoes/frontend/src/components/logo.png";
 
 // Estilização do conteiner superior

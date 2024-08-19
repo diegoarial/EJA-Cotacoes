@@ -51,7 +51,7 @@ function ProductsApp() {
   // Deixar em ordem alfabética
   const getFilteredProducts = async (term) => {
     try {
-      const res = await axios.get("http://localhost:8800");
+      const res = await axios.get("http://localhost:8800/produto/");
       const filtered = filterProducts(res.data, searchField, searchTerm);
       setProdutos(filtered.sort((a, b) => (a.titulo > b.titulo ? 1 : -1)));
     } catch (error) {

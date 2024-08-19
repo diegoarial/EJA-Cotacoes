@@ -5,7 +5,7 @@ import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Remover from "./Remover.js";
 
-// Edição da tabela do Grid 
+// Edição da tabela do Grid
 const Table = styled.table`
   width: 100%;
   height: auto;
@@ -102,7 +102,7 @@ const Grid = ({ produtos, setProdutos, setOnEdit }) => {
   // Função de Remoção
   const handleDelete = async (idProduto) => {
     try {
-      await axios.put(`http://localhost:8800/${idProduto}/inactivate`);
+      await axios.put(`http://localhost:8800/produto/${idProduto}/inactivate`);
       const newArray = produtos.filter(
         (produto) => produto.idProduto !== idProduto
       );
@@ -112,7 +112,7 @@ const Grid = ({ produtos, setProdutos, setOnEdit }) => {
       toast.error("Erro ao remover o produto.");
     }
   };
-  
+
   // Abrir popup de confirmação de exclusão
   const openDeletePopup = (idProduto) => {
     setProductIdToDelete(idProduto);

@@ -1,8 +1,14 @@
 import express from "express";
-import { adicionarAoCarrinho } from "../controllers/carrinho.js";
+import {
+  adicionarAoCarrinho,
+  buscarProdutosDoCarrinho,
+  gerarCotacao,
+} from "../controllers/carrinho.js";
 
-const router = express.Router();
+const carrinhoRoutes = express.Router();
 
-router.post("/carrinho", adicionarAoCarrinho);
+carrinhoRoutes.post("/carrinho", adicionarAoCarrinho);
+carrinhoRoutes.get("/carrinho/produtos", buscarProdutosDoCarrinho);
+carrinhoRoutes.get("/carrinho/cotacao", gerarCotacao);
 
-export default router;
+export default carrinhoRoutes;

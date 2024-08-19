@@ -311,9 +311,12 @@ const Form = ({ getProdutos, onEdit, setOnEdit }) => {
   const handleSave = async (formData) => {
     try {
       if (onEdit) {
-        await axios.put(`http://localhost:8800/${onEdit.idProduto}`, formData);
+        await axios.put(
+          `http://localhost:8800/produto/${onEdit.idProduto}`,
+          formData
+        );
       } else {
-        await axios.post("http://localhost:8800", formData);
+        await axios.post("http://localhost:8800/produto/", formData);
       }
       toast.success("Produto salvo com sucesso!");
       getProdutos();

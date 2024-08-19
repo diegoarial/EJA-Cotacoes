@@ -13,7 +13,7 @@ const Table = styled.table`
   border-radius: 5px;
   margin: 20px auto;
   word-break: break-all;
-  text-align: center; /* Centraliza o texto */
+  text-align: center;
 `;
 
 export const Thead = styled.thead``;
@@ -81,7 +81,7 @@ const GridCart = ({ produtos }) => {
         <Tbody>
           {produtos.length === 0 ? (
             <Tr>
-              <Td colSpan="5" alignCenter>
+              <Td colSpan="5" style={{ textAlign: "center" }}>
                 Nenhum produto encontrado
               </Td>
             </Tr>

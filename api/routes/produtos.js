@@ -6,16 +6,14 @@ import {
   removerProduto,
 } from "../controllers/produto.js";
 
-const router = express.Router();
+const produtoRoutes = express.Router();
 
-router.get("/", getProdutos);
+produtoRoutes.get("/", getProdutos);
 
-router.post("/", cadastrarProduto);
+produtoRoutes.post("/", cadastrarProduto);
 
-router.put("/:idProduto", editarProduto);
+produtoRoutes.put("/:idProduto", editarProduto);
 
-router.put("/:idProduto/inactivate", removerProduto);
+produtoRoutes.put("/:idProduto/inactivate", removerProduto);
 
-export default router;
-
-
+export default produtoRoutes;

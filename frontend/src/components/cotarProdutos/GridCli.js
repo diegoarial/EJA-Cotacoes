@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FiPlusCircle, FiMinusCircle, FiEye } from "react-icons/fi";
 import FormCli from "./FormCli";
+import axios from "axios";
 
 // Edição da tabela do Grid 
 const Table = styled.table`
@@ -173,6 +174,22 @@ const GridCli = ({ produtos }) => {
     setSelectedProduct(null);
   };
 
+  // Função para adicionar produtos ao carrinho
+  const handleAddToCart = async (idProduto, quantidade) => {
+    try {
+      await axios.post("http://localhost:8800/carrinho/", {
+        idProduto: parseInt(idProduto, 10),
+        quantidade: parseInt(quantidade, 10),
+        precoVenda: produtos.find(produto => produto.idProduto === parseInt(idProduto, 10)).precoVenda,
+      });
+      
+      alert(`Produto ${idProduto} adicionado ao carrinho.`);
+    } catch (error) {
+      console.error("Erro ao adicionar produto ao carrinho:", error);
+      alert("Erro ao adicionar produto ao carrinho.");
+    }
+  };
+
   // Organização do grid
   return (
     <>
@@ -185,13 +202,14 @@ const GridCli = ({ produtos }) => {
             <Th></Th>
             <Th></Th>
             <Th></Th>
+            <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
           {produtos.map((item, i) => (
             <Tr key={i}>
-              <Td width="50%">{item.titulo}</Td>
-              <Td width="30%">{item.precoVenda}</Td>
+              <Td width="35%">{item.titulo}</Td>
+              <Td width="20%">{item.precoVenda}</Td>
               <Td style={{ textAlign: "center" }} width="5%">
                 <IconContainer>
                   <PlusIcon onClick={() => incrementValue(item.idProduto)} />
@@ -213,6 +231,9 @@ const GridCli = ({ produtos }) => {
                 <IconContainer>
                   <EyeIcon onClick={() => handleView(item)} />
                 </IconContainer>
+              </Td>
+              <Td style={{ textAlign: "center" }} width="25%">
+                <button onClick={() => handleAddToCart(item.idProduto, values[item.idProduto])}>Adicionar ao Carrinho</button>
               </Td>
             </Tr>
           ))}
