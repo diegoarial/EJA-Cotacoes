@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { FaTrash } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 // Edição da tabela do Grid
 const Table = styled.table`
@@ -65,7 +67,23 @@ const DeleteIcon = styled(FaTrash)`
   }
 `;
 
-const GridCart = ({ produtos }) => {
+const GridCart = ({ produtos, setProdutos }) => {
+  // Função para remover produto
+  const handleRemoveProduct = async (idProdutoCarrinho) => {
+    try {
+      await axios.delete("http://localhost:8800/carrinho/remover", {
+        data: { idProdutoCarrinho }
+      });
+      toast.success("Produto removido do carrinho!");
+
+      // Atualiza a lista de produtos
+      setProdutos((prevProdutos) => prevProdutos.filter(item => item.idProdutoCarrinho !== idProdutoCarrinho));
+    } catch (error) {
+      console.error("Erro ao remover produto do carrinho:", error);
+      toast.error("Erro ao remover produto do carrinho.");
+    }
+  };
+
   return (
     <>
       <Table>
@@ -94,7 +112,7 @@ const GridCart = ({ produtos }) => {
                 <Td width="20%">{item.precoTotal}</Td>
                 <Td style={{ textAlign: "center" }} width="5%">
                   <IconContainer>
-                    <DeleteIcon />
+                    <DeleteIcon onClick={() => handleRemoveProduct(item.idProdutoCarrinho)} />
                   </IconContainer>
                 </Td>
               </Tr>

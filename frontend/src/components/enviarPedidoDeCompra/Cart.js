@@ -61,7 +61,7 @@ const Cart = () => {
   // Função para remover todos os produtos do carrinho
   const handleRemoverTudo = async () => {
     try {
-      const response = await axios.delete("http://localhost:8800/carrinho/");
+      const response = await axios.delete("http://localhost:8800/carrinho/remover");
 
       if (response.status === 200) {
         toast.success("Carrinho esvaziado!", {
@@ -88,7 +88,7 @@ const Cart = () => {
         <TopRightContainer>
           <Button onClick={handleRemoverTudo}>Remover Tudo</Button>
         </TopRightContainer>
-        <GridCart produtos={produtos} setProdutos={setProdutos}/>
+        <GridCart produtos={produtos} setProdutos={setProdutos} />
       </Container>
       <LayoutBase />
       <GlobalStyle />

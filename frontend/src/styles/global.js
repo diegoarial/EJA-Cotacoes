@@ -1,11 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 
 const Global = createGlobalStyle`
-
 * {
     margin: 0;
     padding: 0;
-    font-family: 'poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
@@ -14,6 +13,15 @@ body {
     display: flex;
     justify-content: center;
     background-color: #f2f2f2;
+}
+
+/* Ocultar o cursor de texto em elementos não interativos */
+:not(input):not(textarea):not([contenteditable]) {
+    caret-color: transparent;
+}
+
+input, textarea {
+    caret-color: initial;
 }
 `;
 

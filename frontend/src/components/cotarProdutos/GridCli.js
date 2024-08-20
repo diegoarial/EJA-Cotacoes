@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FiPlusCircle, FiMinusCircle, FiEye } from "react-icons/fi";
+import { FaCartPlus } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import FormCli from "./FormCli";
 import axios from "axios";
 
@@ -108,6 +111,26 @@ const EyeIcon = styled(FiEye)`
   }
 `;
 
+const CartPlusIcon = styled(FaCartPlus)`
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: none;
+  border: 2px solid transparent;
+  border-radius: 40%;
+  transform-origin: top center;
+  z-index: 1;
+
+  &:hover {
+    transform: scale(1.3);
+    color: #000;
+    background-color: #ccc;
+  }
+`;
+
 const NumberInput = styled.input`
   width: 100%;
   padding: 8px;
@@ -176,17 +199,49 @@ const GridCli = ({ produtos }) => {
 
   // Função para adicionar produtos ao carrinho
   const handleAddToCart = async (idProduto, quantidade) => {
-    try {
-      await axios.post("http://localhost:8800/carrinho/", {
-        idProduto: parseInt(idProduto, 10),
-        quantidade: parseInt(quantidade, 10),
-        precoVenda: produtos.find(produto => produto.idProduto === parseInt(idProduto, 10)).precoVenda,
+    if (quantidade > 0) {
+      try {
+        await axios.post("http://localhost:8800/carrinho/", {
+          idProduto: parseInt(idProduto, 10),
+          quantidade: parseInt(quantidade, 10),
+          precoVenda: produtos.find(produto => produto.idProduto === parseInt(idProduto, 10)).precoVenda,
+        });
+  
+        toast.success(`Produto adicionado ao carrinho!`, {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setValues((prevValues) => ({
+          ...prevValues,
+          [idProduto]: ''
+        }));
+      } catch (error) {
+        console.error("Erro ao adicionar produto ao carrinho:", error);
+        toast.error("Erro ao adicionar produto ao carrinho.", {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } else {
+      toast.warning("Por favor, selecione uma quantidade maior que zero.", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
-      
-      alert(`Produto ${idProduto} adicionado ao carrinho.`);
-    } catch (error) {
-      console.error("Erro ao adicionar produto ao carrinho:", error);
-      alert("Erro ao adicionar produto ao carrinho.");
     }
   };
 
@@ -208,8 +263,8 @@ const GridCli = ({ produtos }) => {
         <Tbody>
           {produtos.map((item, i) => (
             <Tr key={i}>
-              <Td width="35%">{item.titulo}</Td>
-              <Td width="20%">{item.precoVenda}</Td>
+              <Td width="45%">{item.titulo}</Td>
+              <Td width="30%">{item.precoVenda}</Td>
               <Td style={{ textAlign: "center" }} width="5%">
                 <IconContainer>
                   <PlusIcon onClick={() => incrementValue(item.idProduto)} />
@@ -232,18 +287,18 @@ const GridCli = ({ produtos }) => {
                   <EyeIcon onClick={() => handleView(item)} />
                 </IconContainer>
               </Td>
-              <Td style={{ textAlign: "center" }} width="25%">
-                <button onClick={() => handleAddToCart(item.idProduto, values[item.idProduto])}>Adicionar ao Carrinho</button>
+              <Td style={{ textAlign: "center" }} width="5%">
+                <IconContainer>
+                  <CartPlusIcon onClick={() => handleAddToCart(item.idProduto, values[item.idProduto] || 0)} />
+                </IconContainer>
               </Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
-      {isFormCliOpen && (
-        <FormCli
-          produto={selectedProduct}
-          onClose={handleClosePopup}
-        />
+      <ToastContainer />
+      {isFormCliOpen && selectedProduct && (
+        <FormCli product={selectedProduct} onClose={handleClosePopup} />
       )}
     </>
   );
