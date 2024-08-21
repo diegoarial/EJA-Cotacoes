@@ -4,6 +4,7 @@ import GlobalStyle from "../../styles/global.js";
 import LayoutCart from "./LayoutCart.js";
 import LayoutBase from "./LayoutBase.js";
 import GridCart from "./GridCart.js";
+import RemoveCart from "./RemoveCart.js";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -41,9 +42,9 @@ const TopRightContainer = styled.div`
   margin-top: 10px;
 `;
 
-// Função para buscar os produtos no carrinho
 const Cart = () => {
   const [produtos, setProdutos] = useState([]);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
 
   useEffect(() => {
     const fetchCarrinho = async () => {
@@ -58,27 +59,32 @@ const Cart = () => {
     fetchCarrinho();
   }, []);
 
-  // Função para remover todos os produtos do carrinho
-  const handleRemoverTudo = async () => {
+  const handleLimparCarrinho = async () => {
     try {
-      const response = await axios.delete("http://localhost:8800/carrinho/remover");
-
+      const response = await axios.delete("http://localhost:8800/carrinho/");
       if (response.status === 200) {
-        toast.success("Carrinho esvaziado!", {
-          position: "bottom-left",
-        });
+        toast.success("Carrinho esvaziado!", { position: "bottom-left" });
         setProdutos([]);
       } else {
-        toast.error("Erro ao esvaziar o carrinho.", {
-          position: "bottom-left",
-        });
+        toast.error("Erro ao esvaziar o carrinho.", { position: "bottom-left" });
       }
     } catch (error) {
       console.error("Erro ao esvaziar o carrinho:", error);
-      toast.error("Erro ao esvaziar o carrinho.", {
-        position: "bottom-left",
-      });
+      toast.error("Erro ao esvaziar o carrinho.", { position: "bottom-left" });
     }
+  };
+
+  const openDeletePopup = () => {
+    setIsDeletePopupOpen(true);
+  };
+
+  const closeDeletePopup = () => {
+    setIsDeletePopupOpen(false);
+  };
+
+  const confirmDeleteCart = () => {
+    handleLimparCarrinho();
+    closeDeletePopup();
   };
 
   return (
@@ -86,13 +92,21 @@ const Cart = () => {
       <LayoutCart />
       <Container>
         <TopRightContainer>
-          <Button onClick={handleRemoverTudo}>Remover Tudo</Button>
+          <Button onClick={openDeletePopup}>Limpar Carrinho</Button>
         </TopRightContainer>
         <GridCart produtos={produtos} setProdutos={setProdutos} />
       </Container>
-      <LayoutBase />
+      <LayoutBase produtos={produtos} />
       <GlobalStyle />
       <ToastContainer position="bottom-left" />
+      {isDeletePopupOpen && (
+        <RemoveCart
+          isOpen={isDeletePopupOpen}
+          onClose={closeDeletePopup}
+          onConfirm={confirmDeleteCart}
+          message="Deseja realmente remover todos os produtos do carrinho? Esta alteração não poderá ser desfeita."
+        />
+      )}
     </>
   );
 };

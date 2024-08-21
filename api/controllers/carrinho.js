@@ -11,11 +11,11 @@ export const buscarProdutosDoCarrinho = (req, res) => {
   });
 };
 
+// Adicionar produtos ao carrinho
 export const adicionarProduto = (req, res) => {
   const { idProduto, quantidade, precoVenda } = req.body;
   const precoTotal = quantidade * precoVenda;
 
-  // Verificar se o produto já está no carrinho
   const checkProductQuery = "SELECT * FROM produto_carrinho WHERE idProduto = ?";
   db.query(checkProductQuery, [idProduto], (err, results) => {
     if (err) {
@@ -24,7 +24,6 @@ export const adicionarProduto = (req, res) => {
     }
 
     if (results.length > 0) {
-      // Produto já existe, atualizar a quantidade e o preço total
       const existingProduct = results[0];
       const newQuantidade = existingProduct.quantidade + quantidade;
       const newPrecoTotal = newQuantidade * precoVenda;
@@ -97,6 +96,27 @@ export const removerProduto = (req, res) => {
   });
 };
 
+// Limpar o carrinho
+export const limparCarrinho = (req, res) => {
+  const deleteCarrinhoQuery = "DELETE FROM carrinho";
+  const deleteProdutoCarrinhoQuery = "DELETE FROM produto_carrinho";
+
+  db.query(deleteCarrinhoQuery, (err) => {
+    if (err) {
+      console.error("Erro ao esvaziar o carrinho:", err);
+      return res.status(500).json({ error: "Erro ao esvaziar o carrinho." });
+    }
+
+    db.query(deleteProdutoCarrinhoQuery, (err) => {
+      if (err) {
+        console.error("Erro ao remover os produtos do carrinho:", err);
+        return res.status(500).json({ error: "Erro ao remover os produtos do carrinho." });
+      }
+
+      return res.status(200).json("Carrinho esvaziado com sucesso.");
+    });
+  });
+};
 
 // Gerar Cotação
 export const gerarCotacao = async (req, res) => {
@@ -105,6 +125,7 @@ export const gerarCotacao = async (req, res) => {
     const total = rows[0].total || 0;
     res.json({ total });
   } catch (error) {
+    console.error("Erro ao gerar cotação:", error);
     res.status(500).json({ error: "Erro ao gerar cotação" });
   }
 };

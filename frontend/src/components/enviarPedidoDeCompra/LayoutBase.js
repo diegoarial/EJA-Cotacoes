@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   width: 100%;
-  height: 100px;
+  height: 90px;
   background-color: #2c73d2;
   display: flex;
   align-items: center;
@@ -25,7 +25,7 @@ const Button = styled.button`
   color: #2c73d2;
   font-weight: bold;
   font-size: 20px;
-  height: 75px;
+  height: 70px;
   z-index: 2;
   margin-right: 20px;
 `;
@@ -36,8 +36,7 @@ const PositionContainer = styled.div`
   align-items: flex-end;
   width: 100%;
   position: absolute;
-  right: 150px;
-  margin-top: 10px;
+  right: 40px;
 `;
 
 const TotalText = styled.span`
@@ -46,21 +45,25 @@ const TotalText = styled.span`
   color: #fff;
 `;
 
-const LayoutBase = () => {
+const LayoutBase = ({ produtos }) => {
   const [valorTotal, setValorTotal] = useState(0);
 
   useEffect(() => {
     const fetchTotal = async () => {
       try {
-        const response = await axios.get('http://localhost:8800/carrinho/cotacao/');
-        setValorTotal(response.data.total);
+        if (produtos.length > 0) {
+          const response = await axios.get('http://localhost:8800/carrinho/cotacao');
+          setValorTotal(response.data.total);
+        } else {
+          setValorTotal(0);
+        }
       } catch (error) {
         console.error("Erro ao buscar cotação:", error);
       }
     };
 
     fetchTotal();
-  }, []);
+  }, [produtos]);
 
   return (
     <Container>

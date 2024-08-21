@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FaTrash } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
+import RemoveCart from "./RemoveCart"; 
 
-// Edição da tabela do Grid
+// Estilização da tabela do Grid
 const Table = styled.table`
   width: 100%;
   height: auto;
@@ -68,20 +69,34 @@ const DeleteIcon = styled(FaTrash)`
 `;
 
 const GridCart = ({ produtos, setProdutos }) => {
-  // Função para remover produto
-  const handleRemoveProduct = async (idProdutoCarrinho) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [productToRemove, setProductToRemove] = useState(null);
+
+  const openRemovePopup = (product) => {
+    setProductToRemove(product);
+    setIsPopupOpen(true);
+  };
+
+  const closeRemovePopup = () => {
+    setIsPopupOpen(false);
+    setProductToRemove(null);
+  };
+
+  const handleRemoveProduct = async () => {
     try {
       await axios.delete("http://localhost:8800/carrinho/remover", {
-        data: { idProdutoCarrinho }
+        data: { idProdutoCarrinho: productToRemove.idProdutoCarrinho }
       });
       toast.success("Produto removido do carrinho!");
 
-      // Atualiza a lista de produtos
-      setProdutos((prevProdutos) => prevProdutos.filter(item => item.idProdutoCarrinho !== idProdutoCarrinho));
+      setProdutos((prevProdutos) =>
+        prevProdutos.filter(item => item.idProdutoCarrinho !== productToRemove.idProdutoCarrinho)
+      );
     } catch (error) {
       console.error("Erro ao remover produto do carrinho:", error);
       toast.error("Erro ao remover produto do carrinho.");
     }
+    closeRemovePopup();
   };
 
   return (
@@ -112,7 +127,7 @@ const GridCart = ({ produtos, setProdutos }) => {
                 <Td width="20%">{item.precoTotal}</Td>
                 <Td style={{ textAlign: "center" }} width="5%">
                   <IconContainer>
-                    <DeleteIcon onClick={() => handleRemoveProduct(item.idProdutoCarrinho)} />
+                    <DeleteIcon onClick={() => openRemovePopup(item)} />
                   </IconContainer>
                 </Td>
               </Tr>
@@ -120,6 +135,14 @@ const GridCart = ({ produtos, setProdutos }) => {
           )}
         </Tbody>
       </Table>
+      {isPopupOpen && (
+        <RemoveCart
+          isOpen={isPopupOpen}
+          onClose={closeRemovePopup}
+          onConfirm={handleRemoveProduct}
+          message={`Deseja realmente remover o produto "${productToRemove?.titulo}" do carrinho? Esta alteração não poderá ser desfeita.`}
+        />
+      )}
     </>
   );
 };

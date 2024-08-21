@@ -75,7 +75,7 @@ const ButtonCancel = styled.button`
 `;
 
 // Organização do popup de confirmar a remoção de um produto
-const Remover = ({ isOpen, onClose, onConfirm }) => {
+const Remove = ({ isOpen, onClose, onConfirm }) => {
   return (
     <PopupContainer isOpen={isOpen}>
       <ConfirmContainer>
@@ -95,4 +95,4 @@ const Remover = ({ isOpen, onClose, onConfirm }) => {
   );
 };
 
-export default Remover;
+export default Remove;

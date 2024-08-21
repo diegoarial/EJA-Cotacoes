@@ -3,7 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
-import Remover from "./Remover.js";
+import Remove from "./Remove.js";
 
 // Edição da tabela do Grid
 const Table = styled.table`
@@ -169,7 +169,7 @@ const Grid = ({ produtos, setProdutos, setOnEdit }) => {
         </Tbody>
       </Table>
       {isDeletePopupOpen && (
-        <Remover
+        <Remove
           isOpen={isDeletePopupOpen}
           onClose={closeDeletePopup}
           onConfirm={confirmDelete}
