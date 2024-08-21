@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import styled from "styled-components";
 
 const Container = styled.div`
   width: 100%;
@@ -45,29 +45,29 @@ const TotalText = styled.span`
   color: #fff;
 `;
 
-const LayoutBase = ({ produtos }) => {
-  const [valorTotal, setValorTotal] = useState(0);
+const LayoutBase = () => {
+  const [cotacaoFinal, setCotacaoFinal] = useState(0);
 
+  // Função para buscar a cotação atualizada
+  const fetchCotacao = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8800/carrinho/cotacao"
+      );
+      setCotacaoFinal(response.data.cotacaoFinal);
+    } catch (error) {
+      console.error("Erro ao buscar a cotação:", error);
+    }
+  };
+
+  // Atualiza a cotação quando o componente é montado
   useEffect(() => {
-    const fetchTotal = async () => {
-      try {
-        if (produtos.length > 0) {
-          const response = await axios.get('http://localhost:8800/carrinho/cotacao');
-          setValorTotal(response.data.total);
-        } else {
-          setValorTotal(0);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar cotação:", error);
-      }
-    };
-
-    fetchTotal();
-  }, [produtos]);
+    fetchCotacao();
+  }, []); // Chama fetchCotacao apenas na montagem do componente
 
   return (
     <Container>
-      <TotalText>Valor Total: R$ {valorTotal.toFixed(2)}</TotalText>
+      <TotalText>Valor Total: R$ {cotacaoFinal.toFixed(2)}</TotalText>
       <PositionContainer>
         <Button>Gerar Pedido de Compra</Button>
       </PositionContainer>
