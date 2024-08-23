@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import produtoRoutes from "./routes/produtos.js";
 import carrinhoRoutes from "./routes/carrinho.js";
+import clienteRoutes from "./routes/clientes.js";
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(cors());
 
 app.use("/produto", produtoRoutes);
 app.use("/carrinho", carrinhoRoutes);
+app.use("/cliente", clienteRoutes);
 
 app.listen(8800, () => {
   console.log("Servidor rodando na porta 8800");
