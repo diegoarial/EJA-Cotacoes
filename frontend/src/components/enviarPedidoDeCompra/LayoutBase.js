@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import FormCart from "./FormCart";
 import { toast } from "react-toastify";
 import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
+import "jspdf-autotable";
 
 const Container = styled.div`
   width: 100%;
@@ -67,8 +67,11 @@ const ModalContent = styled.div`
   padding: 20px;
   border-radius: 8px;
   position: relative;
-  width: 80%;
-  max-width: 800px;
+  width: 60%;
+  max-width: 600px;
+  height: 60%;
+  max-height: 600px;
+  overflow-y: auto;
 `;
 
 const CloseButton = styled.button`
@@ -93,17 +96,17 @@ const PreviewModal = ({ pdfBlob, onClose }) => {
         <iframe
           title="Pré-visualização do Pedido de Compra"
           src={URL.createObjectURL(pdfBlob)}
-          style={{ width: '100%', height: '500px', border: 'none' }}
+          style={{ width: "100%", height: "500px", border: "none" }}
         />
 
         <button
           onClick={() => {
-            const link = document.createElement('a');
+            const link = document.createElement("a");
             link.href = URL.createObjectURL(pdfBlob);
-            link.download = 'pedido_de_compra.pdf';
+            link.download = "pedido_de_compra.pdf";
             link.click();
           }}
-          style={{ marginTop: '20px', padding: '10px 20px', fontSize: '16px' }}
+          style={{ marginTop: "20px", padding: "10px 20px", fontSize: "16px" }}
         >
           Baixar Pedido de Compra
         </button>
@@ -116,22 +119,24 @@ const LayoutBase = () => {
   const [cotacaoFinal, setCotacaoFinal] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [pdfBlob, setPdfBlob] = useState(null);
-  const [cartData, setCartData] = useState([]);
+  const [setCartData] = useState([]); // Corrigido para utilizar
 
   // Função para buscar a cotação e dados do carrinho
-  const fetchCotacao = async () => {
+  const fetchCotacao = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:8800/carrinho/cotacao");
+      const response = await axios.get(
+        "http://localhost:8800/carrinho/cotacao"
+      );
       setCotacaoFinal(response.data.cotacaoFinal);
       setCartData(response.data.cartItems); // Supondo que cartItems seja a lista de produtos no carrinho
     } catch (error) {
       console.error("Erro ao buscar a cotação:", error);
     }
-  };
+  }, [setCartData]); // Incluído setCartData
 
   useEffect(() => {
     fetchCotacao();
-  }, []);
+  }, [fetchCotacao]);
 
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
@@ -145,33 +150,35 @@ const LayoutBase = () => {
     // Salvar os dados do cliente
     await axios.post("http://localhost:8800/cliente/", formData);
     toast.success("Cliente salvo com sucesso!");
-  
+
     // Buscar os dados do carrinho
     const response = await axios.get("http://localhost:8800/carrinho/produtos");
     const produtos = response.data;
-  
+
     // Gerar o PDF com os dados do carrinho
     const doc = new jsPDF();
     doc.text("Pedido de Compra", 20, 10);
-  
+
     // Usar jsPDF-AutoTable para criar a tabela
     doc.autoTable({
-      head: [['Título', 'Preço Unitário', 'Quantidade', 'Preço Total']],
-      body: produtos.map(produto => [
+      head: [["Título", "Preço Unitário", "Quantidade", "Preço Total"]],
+      body: produtos.map((produto) => [
         produto.titulo,
         `R$ ${produto.precoVenda.toFixed(2)}`,
         produto.quantidade,
-        `R$ ${produto.precoTotal.toFixed(2)}`
+        `R$ ${produto.precoTotal.toFixed(2)}`,
       ]),
     });
-  
+
     // Adicionar o valor total ao PDF
-    const cotacaoResponse = await axios.get("http://localhost:8800/carrinho/cotacao");
+    const cotacaoResponse = await axios.get(
+      "http://localhost:8800/carrinho/cotacao"
+    );
     const cotacaoFinal = cotacaoResponse.data.cotacaoFinal || 0;
     doc.text(`Valor Total: R$ ${cotacaoFinal.toFixed(2)}`, 20, 270);
-  
+
     // Converter PDF para blob e armazenar
-    const pdfBlob = doc.output('blob');
+    const pdfBlob = doc.output("blob");
     setPdfBlob(pdfBlob);
     handleClosePopup();
   };
