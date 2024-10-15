@@ -64,8 +64,6 @@ export const removerProduto = (req, res) => {
       return res.status(500).json(err);
     }
 
-    return res.status(200).json("Produto inativado com sucesso.");
+    return res.status(200).json("Produto removido com sucesso.");
   });
 };
-
-

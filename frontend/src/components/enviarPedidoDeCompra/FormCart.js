@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { VscClose } from "react-icons/vsc";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 // Estilização do pop-up
 const PopupContainer = styled.div`
@@ -58,7 +59,7 @@ const InputArea = styled.div`
 
 // Tamanho da caixa de input dos dados do cliente
 const InputClient = styled.input`
-  width: 100%;
+  width: 205px;
   padding: 0 10px;
   border: 1px solid #bbb;
   border-radius: 5px;
@@ -93,8 +94,54 @@ const ButtonCancel = styled.button`
   height: 42px;
 `;
 
+// Título do pop-up
+const PopupTitle = styled.h2`
+  width: 100%;
+  text-align: center;
+  margin-bottom: 5px;
+  color: #333;
+`;
+
 const FormCart = ({ onSave, onClose, cliente }) => {
   const ref = useRef();
+  const [formData, setFormData] = useState(cliente || {});
+
+  const validateCPF = (cpf) => {
+    const regex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+    return regex.test(cpf);
+  };
+
+  const validateTelefone = (telefone) => {
+    const regex = /^\(\d{2}\) \d{5}-\d{4}$/;
+    return regex.test(telefone);
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const handleCPFBlur = async (e) => {
+    const cpf = e.target.value;
+
+    if (validateCPF(cpf)) {
+      try {
+        const response = await axios.get(`http://localhost:8800/cliente/${cpf}`);
+        if (response.data) {
+          setFormData(response.data);
+          toast.info("Cliente encontrado e dados preenchidos!");
+        }
+      } catch (error) {
+        if (error.response.status === 404) {
+          toast.warn("Cliente não encontrado. Insira os dados manualmente.");
+        } else {
+          toast.error("Erro ao buscar cliente. Tente novamente.");
+        }
+      }
+    } else {
+      toast.error("CPF inválido! Use o formato xxx.xxx.xxx-xx.");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,6 +156,18 @@ const FormCart = ({ onSave, onClose, cliente }) => {
       !clienteForm.empresa.value
     ) {
       return toast.warn("Preencha todos os campos!");
+    }
+
+    if (!validateCPF(clienteForm.cpf.value)) {
+      return toast.error("CPF inválido! Use o formato xxx.xxx.xxx-xx.");
+    }
+
+    if (!validateTelefone(clienteForm.telefone.value)) {
+      return toast.error("Telefone inválido! Use o formato (xx) xxxxx-xxxx.");
+    }
+
+    if (!validateEmail(clienteForm.email.value)) {
+      return toast.error("Email inválido! Use o formato xxx@xxx.xxx.");
     }
 
     await onSave({
@@ -128,13 +187,17 @@ const FormCart = ({ onSave, onClose, cliente }) => {
         <CloseButton onClick={onClose}>
           <VscClose />
         </CloseButton>
+        <PopupTitle>Insira seus dados</PopupTitle>
         <InputArea>
           <Label>CPF</Label>
           <InputClient
             name="cpf"
             maxLength="14"
             type="text"
-            defaultValue={cliente ? cliente.cpf : ""}
+            value={formData.cpf || ""}
+            placeholder="xxx.xxx.xxx-xx"
+            onBlur={handleCPFBlur}
+            onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
           />
         </InputArea>
         <InputArea>
@@ -143,7 +206,8 @@ const FormCart = ({ onSave, onClose, cliente }) => {
             name="nome"
             maxLength="30"
             type="text"
-            defaultValue={cliente ? cliente.nome : ""}
+            value={formData.nome || ""}
+            onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
           />
         </InputArea>
         <InputArea>
@@ -152,16 +216,19 @@ const FormCart = ({ onSave, onClose, cliente }) => {
             name="sobrenome"
             maxLength="40"
             type="text"
-            defaultValue={cliente ? cliente.sobrenome : ""}
+            value={formData.sobrenome || ""}
+            onChange={(e) => setFormData({ ...formData, sobrenome: e.target.value })}
           />
         </InputArea>
         <InputArea>
           <Label>Telefone</Label>
           <InputClient
             name="telefone"
-            maxLength="14"
+            maxLength="15"
             type="text"
-            defaultValue={cliente ? cliente.telefone : ""}
+            value={formData.telefone || ""}
+            placeholder="(xx) xxxxx-xxxx"
+            onChange={(e) => setFormData({ ...formData, telefone: e.target.value })}
           />
         </InputArea>
         <InputArea>
@@ -170,7 +237,9 @@ const FormCart = ({ onSave, onClose, cliente }) => {
             name="email"
             maxLength="100"
             type="email"
-            defaultValue={cliente ? cliente.email : ""}
+            value={formData.email || ""}
+            placeholder="xxx@xxx.xxx"
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           />
         </InputArea>
         <InputArea>
@@ -179,7 +248,8 @@ const FormCart = ({ onSave, onClose, cliente }) => {
             name="empresa"
             maxLength="50"
             type="text"
-            defaultValue={cliente ? cliente.empresa : ""}
+            value={formData.empresa || ""}
+            onChange={(e) => setFormData({ ...formData, empresa: e.target.value })}
           />
         </InputArea>
         <ButtonContainer>

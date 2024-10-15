@@ -298,7 +298,7 @@ const GridCli = ({ produtos }) => {
       </Table>
       <ToastContainer />
       {isFormCliOpen && selectedProduct && (
-        <FormCli product={selectedProduct} onClose={handleClosePopup} />
+        <FormCli produto={selectedProduct} onClose={handleClosePopup} />
       )}
     </>
   );

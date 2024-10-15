@@ -5,6 +5,8 @@ import FormCart from "./FormCart";
 import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { VscClose } from "react-icons/vsc";
+
 
 const Container = styled.div`
   width: 100%;
@@ -64,52 +66,73 @@ const ModalContainer = styled.div`
 
 const ModalContent = styled.div`
   background: #fff;
-  padding: 20px;
+  padding: 40px 20px 20px;
   border-radius: 8px;
   position: relative;
   width: 60%;
-  max-width: 600px;
+  max-width: 700px;
   height: 60%;
-  max-height: 600px;
+  max-height: 700px;
   overflow-y: auto;
 `;
 
-const CloseButton = styled.button`
+const CloseButton = styled(VscClose)`
   position: absolute;
   top: 10px;
   right: 10px;
-  background: #ff4d4d;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 5px 10px;
+  font-size: 24px;
   cursor: pointer;
 `;
 
-const PreviewModal = ({ pdfBlob, onClose }) => {
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;  // Centraliza os botões horizontalmente
+  gap: 10px;  // Espaço entre os botões
+  margin-top: 20px;  // Espaço acima dos botões
+`;
+
+const StyledButton = styled.button`
+  background-color: #2c73d2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 0 5px;
+  
+  &:hover {
+    background-color: #1a5bb8;  // Cor de fundo ao passar o mouse
+  }
+`;
+
+const PreviewModal = ({ pdfBlob, onClose, onSend }) => {
   if (!pdfBlob) return null;
 
   return (
     <ModalContainer>
       <ModalContent>
-        <CloseButton onClick={onClose}>Fechar</CloseButton>
+        <CloseButton onClick={onClose} />
         <iframe
           title="Pré-visualização do Pedido de Compra"
           src={URL.createObjectURL(pdfBlob)}
           style={{ width: "100%", height: "500px", border: "none" }}
         />
-
-        <button
-          onClick={() => {
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(pdfBlob);
-            link.download = "pedido_de_compra.pdf";
-            link.click();
-          }}
-          style={{ marginTop: "20px", padding: "10px 20px", fontSize: "16px" }}
-        >
-          Baixar Pedido de Compra
-        </button>
+        <ButtonContainer>
+          <StyledButton
+            onClick={() => {
+              const link = document.createElement("a");
+              link.href = URL.createObjectURL(pdfBlob);
+              link.download = "pedido_de_compra.pdf";
+              link.click();
+            }}
+          >
+            Baixar Pedido de Compra
+          </StyledButton>
+          <StyledButton onClick={onSend}>
+            Enviar Pedido de Compra
+          </StyledButton>
+        </ButtonContainer>
       </ModalContent>
     </ModalContainer>
   );
@@ -119,7 +142,7 @@ const LayoutBase = () => {
   const [cotacaoFinal, setCotacaoFinal] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [pdfBlob, setPdfBlob] = useState(null);
-  const [setCartData] = useState([]); // Corrigido para utilizar
+  const [setCartData] = useState([]);
 
   // Função para buscar a cotação e dados do carrinho
   const fetchCotacao = useCallback(async () => {
@@ -128,11 +151,11 @@ const LayoutBase = () => {
         "http://localhost:8800/carrinho/cotacao"
       );
       setCotacaoFinal(response.data.cotacaoFinal);
-      setCartData(response.data.cartItems); // Supondo que cartItems seja a lista de produtos no carrinho
+      setCartData(response.data.cartItems);
     } catch (error) {
       console.error("Erro ao buscar a cotação:", error);
     }
-  }, [setCartData]); // Incluído setCartData
+  }, [setCartData]);
 
   useEffect(() => {
     fetchCotacao();
@@ -150,17 +173,27 @@ const LayoutBase = () => {
     // Salvar os dados do cliente
     await axios.post("http://localhost:8800/cliente/", formData);
     toast.success("Cliente salvo com sucesso!");
-
+  
     // Buscar os dados do carrinho
-    const response = await axios.get("http://localhost:8800/carrinho/produtos");
-    const produtos = response.data;
-
-    // Gerar o PDF com os dados do carrinho
+    const produtosResponse = await axios.get("http://localhost:8800/carrinho/produtos");
+    const produtos = produtosResponse.data;
+  
+    // Criar o PDF
     const doc = new jsPDF();
+
+    doc.setFontSize(24); 
     doc.text("Pedido de Compra", 20, 10);
 
+    doc.setFontSize(14);
+
+    // Adicionar os dados do cliente ao PDF
+    doc.text(`Cliente: ${formData.nome} ${formData.sobrenome}`, 20, 20);
+    doc.text(`Telefone: ${formData.telefone}`, 100, 20);
+    doc.text(`Empresa: ${formData.empresa}`, 20, 30);
+  
     // Usar jsPDF-AutoTable para criar a tabela
     doc.autoTable({
+      startY: 40, // Iniciar a tabela abaixo dos dados do cliente
       head: [["Título", "Preço Unitário", "Quantidade", "Preço Total"]],
       body: produtos.map((produto) => [
         produto.titulo,
@@ -169,18 +202,35 @@ const LayoutBase = () => {
         `R$ ${produto.precoTotal.toFixed(2)}`,
       ]),
     });
-
-    // Adicionar o valor total ao PDF
-    const cotacaoResponse = await axios.get(
-      "http://localhost:8800/carrinho/cotacao"
-    );
+  
+    // Adicionar o valor total ao PDF no fim da página
+    const cotacaoResponse = await axios.get("http://localhost:8800/carrinho/cotacao");
     const cotacaoFinal = cotacaoResponse.data.cotacaoFinal || 0;
-    doc.text(`Valor Total: R$ ${cotacaoFinal.toFixed(2)}`, 20, 270);
-
+    const finalY = doc.autoTable.previous.finalY || 40;
+    doc.setFontSize(20);
+    doc.text(`Valor Total: R$ ${cotacaoFinal.toFixed(2)}`, 20, finalY + 20);
+  
     // Converter PDF para blob e armazenar
     const pdfBlob = doc.output("blob");
     setPdfBlob(pdfBlob);
     handleClosePopup();
+  };
+  
+  const handleSendEmail = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("pedidoPDF", pdfBlob);
+  
+      await axios.post('http://localhost:8800/cliente/enviarPedido', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      toast.success('Email enviado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao enviar o email:', error);
+      toast.error('Erro ao enviar o email.');
+    }
   };
 
   return (
@@ -194,7 +244,11 @@ const LayoutBase = () => {
         <FormCart onSave={handleSave} onClose={handleClosePopup} />
       )}
 
-      <PreviewModal pdfBlob={pdfBlob} onClose={() => setPdfBlob(null)} />
+      <PreviewModal
+        pdfBlob={pdfBlob}
+        onClose={() => setPdfBlob(null)}
+        onSend={handleSendEmail}
+      />
     </Container>
   );
 };
