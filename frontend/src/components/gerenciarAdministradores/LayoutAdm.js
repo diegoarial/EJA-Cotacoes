@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FaArrowLeft, FaUser } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import logoImage from "D:/EJAcotacoes/frontend/src/components/logo.png";
 
@@ -33,13 +33,6 @@ const BackIcon = styled(FaArrowLeft)`
   margin-right: 10px;
 `;
 
-// Estilização do icon de usuario
-const UserIcon = styled(FaUser)`
-  color: #fff;
-  font-size: 20px;
-  margin-right: 50px;
-`;
-
 // Estilização da logo
 const Logo = styled.img`
   height: 150px;
@@ -65,7 +58,6 @@ const LayoutAdm = () => {
           <Logo src={logoImage} alt="Logo" />
         </IconButton>
         <IconButton>
-          <UserIcon />
         </IconButton>
       </Container>
       <Content />

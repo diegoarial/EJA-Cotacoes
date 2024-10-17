@@ -102,7 +102,7 @@ const GridAdm = ({ adms, setAdms, setOnEdit }) => {
   // Função de Remoção
   const handleDelete = async (idAdm) => {
     try {
-      await axios.put(`http://localhost:8800/produto/${idAdm}/inactivate`);
+      await axios.put(`http://localhost:8800/administrador/${idAdm}/inactivate`);
       const newArray = adms.filter(
         (adm) => adm.idAdm !== idAdm
       );
@@ -125,7 +125,7 @@ const GridAdm = ({ adms, setAdms, setOnEdit }) => {
     setAdmIdToDelete(null);
   };
 
-  // Função de confirmar a remoção do produto
+  // Função de confirmar a remoção do administrador
   const confirmDelete = () => {
     if (admIdToDelete) {
       handleDelete(admIdToDelete);
@@ -139,10 +139,10 @@ const GridAdm = ({ adms, setAdms, setOnEdit }) => {
       <Table>
         <Thead>
           <Tr>
-            <Th>SKU</Th>
-            <Th>Título</Th>
-            <Th>Preço de Venda</Th>
-            <Th>Preço de Custo</Th>
+            <Th>Usuário</Th>
+            <Th>Nome</Th>
+            <Th>E-mail</Th>
+            <Th>Telefone</Th>
             <Th></Th>
             <Th></Th>
           </Tr>
@@ -150,10 +150,10 @@ const GridAdm = ({ adms, setAdms, setOnEdit }) => {
         <Tbody>
           {adms.map((item, i) => (
             <Tr key={i}>
-              <Td width="10%">{item.idProduto}</Td>
-              <Td width="50%">{item.titulo}</Td>
-              <Td width="10%">{item.precoVenda}</Td>
-              <Td width="10%">{item.precoCusto}</Td>
+              <Td width="15%">{item.usuario}</Td>
+              <Td width="20%">{item.nome}</Td>
+              <Td width="30%">{item.email}</Td>
+              <Td width="15%">{item.telefone}</Td>
               <Td style={{ textAlign: "center" }} width="5%">
                 <IconContainer>
                   <EditIcon onClick={() => handleEdit(item)} />
@@ -161,7 +161,7 @@ const GridAdm = ({ adms, setAdms, setOnEdit }) => {
               </Td>
               <Td style={{ textAlign: "center" }} width="5%">
                 <IconContainer>
-                  <DeleteIcon onClick={() => openDeletePopup(item.idProduto)} />
+                  <DeleteIcon onClick={() => openDeletePopup(item.idAdm)} />
                 </IconContainer>
               </Td>
             </Tr>

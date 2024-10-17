@@ -64,24 +64,6 @@ const InputContainer = styled.div`
   align-items: center;
 `;
 
-// Caixa do Símbolo
-const CurrencySymbolBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 40px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 0 10px;
-  background-color: #f8f9fa;
-`;
-
-// Colocar símbolo dentro da caixa
-const CurrencySymbolText = styled.span`
-  font-size: 18px;
-  color: #555;
-`;
-
 // Tamanho da caixa de input do título
 const InputTitle = styled.input`
   width: 730px;
@@ -171,25 +153,23 @@ const PopupForm = ({ onSave, onClose, adm }) => {
     const admForm = ref.current;
 
     if (
-      !admForm.titulo.value ||
-      !admForm.precoVenda.value ||
-      !admForm.precoCusto.value ||
-      !admForm.peso.value ||
-      !admForm.altura.value ||
-      !admForm.largura.value ||
-      !admForm.profundidade.value
+      !admForm.usuario.value ||
+      !admForm.email.value ||
+      !admForm.senha.value ||
+      !admForm.nome.value ||
+      !admForm.sobrenome.value ||
+      !admForm.telefone.value
     ) {
       return toast.warn("Preencha todos os campos!");
     }
 
     await onSave({
-      titulo: admForm.titulo.value,
-      precoVenda: admForm.precoVenda.value,
-      precoCusto: admForm.precoCusto.value,
-      peso: admForm.peso.value,
-      altura: admForm.altura.value,
-      largura: admForm.largura.value,
-      profundidade: admForm.profundidade.value,
+      usuario: admForm.usuario.value,
+      email: admForm.email.value,
+      senha: admForm.senha.value,
+      nome: admForm.nome.value,
+      sobrenome: admForm.sobrenome.value,
+      telefone: admForm.telefone.value,
     });
     onClose();
   };
@@ -202,87 +182,66 @@ const PopupForm = ({ onSave, onClose, adm }) => {
           <VscClose />
         </CloseButton>
         <InputArea>
-          <Label>Título</Label>
+          <Label>Usuário</Label>
           <InputTitle
-            name="titulo"
-            maxLength="200"
+            name="usuario"
+            maxLength="20"
             type="text"
-            defaultValue={adm ? adm.titulo : ""}
+            defaultValue={adm ? adm.usuario : ""}
           />
         </InputArea>
         <InputArea>
-          <Label>Preço de Venda</Label>
+          <Label>E-mail</Label>
           <InputContainer>
-            <CurrencySymbolBox>
-              <CurrencySymbolText>R$</CurrencySymbolText>
-            </CurrencySymbolBox>
             <InputPrice
-              name="precoVenda"
-              type="number"
-              step=".01"
-              pattern="\d{0,5}(?:\.\d{0,2})?"
-              title="Insira até 5 dígitos antes da vírgula, incluindo 2 após o ponto."
-              defaultValue={adm ? adm.precoVenda : ""}
+              name="email"
+              maxLength="100"
+              type="text"
+              defaultValue={adm ? adm.email : ""}
             />
           </InputContainer>
         </InputArea>
         <InputArea>
-          <Label>Preço de Custo</Label>
+          <Label>Senha</Label>
           <InputContainer>
-            <CurrencySymbolBox>
-              <CurrencySymbolText>R$</CurrencySymbolText>
-            </CurrencySymbolBox>
             <InputPrice
-              name="precoCusto"
-              type="number"
-              step=".01"
-              pattern="\d{0,5}(?:\.\d{0,2})?"
-              title="Insira até 5 dígitos antes da vírgula, incluindo 2 após o ponto."
-              defaultValue={adm ? adm.precoCusto : ""}
+              name="senha"
+              maxLength="30"
+              type="text"
+              defaultValue={adm ? adm.senha : ""}
             />
           </InputContainer>
         </InputArea>
         <InputArea>
-          <Label>Peso (g)</Label>
+          <Label>Nome</Label>
           <InputContainer>
             <InputMeasures
-              name="peso"
-              type="number"
-              step="any"
-              defaultValue={adm ? adm.peso : ""}
+              name="nome"
+              maxLength="20"
+              type="text"
+              defaultValue={adm ? adm.nome : ""}
             />
           </InputContainer>
         </InputArea>
         <InputArea>
-          <Label>Altura (cm)</Label>
+          <Label>Sobrenome</Label>
           <InputContainer>
             <InputMeasures
-              name="altura"
-              type="number"
-              step="any"
-              defaultValue={adm ? adm.altura : ""}
+              name="sobrenome"
+              maxLength="30"
+              type="text"
+              defaultValue={adm ? adm.sobrenome : ""}
             />
           </InputContainer>
         </InputArea>
         <InputArea>
-          <Label>Largura (cm)</Label>
+          <Label>Telefone</Label>
           <InputContainer>
             <InputMeasures
-              name="largura"
-              type="number"
-              step="any"
-              defaultValue={adm ? adm.largura : ""}
-            />
-          </InputContainer>
-        </InputArea>
-        <InputArea>
-          <Label>Profundidade (cm)</Label>
-          <InputContainer>
-            <InputMeasures
-              name="profundidade"
-              type="number"
-              step="any"
-              defaultValue={adm ? adm.profundidade : ""}
+              name="telefone"
+              maxLength="15"
+              type="text"
+              defaultValue={adm ? adm.telefone : ""}
             />
           </InputContainer>
         </InputArea>
@@ -312,16 +271,16 @@ const FormAdm = ({ getAdms, onEdit, setOnEdit }) => {
     try {
       if (onEdit) {
         await axios.put(
-          `http://localhost:8800/produto/${onEdit.idProduto}`,
+          `http://localhost:8800/administrador/${onEdit.idAdm}`,
           formData
         );
       } else {
-        await axios.post("http://localhost:8800/produto/", formData);
+        await axios.post("http://localhost:8800/administrador/", formData);
       }
-      toast.success("Produto salvo com sucesso!");
+      toast.success("Administrador salvo com sucesso!");
       getAdms();
     } catch (error) {
-      toast.error("Erro ao salvar o produto.");
+      toast.error("Erro ao salvar o administrador.");
     }
   };
 
@@ -331,19 +290,19 @@ const FormAdm = ({ getAdms, onEdit, setOnEdit }) => {
     setOnEdit(null);
   };
 
-  // Botão de abrir o pop-up e cadastrar um novo produto
+  // Botão de abrir o pop-up e cadastrar um novo administrador
   return (
     <>
       <TopRightContainer>
         <Button onClick={() => setIsPopupOpen(true)}>
-          Cadastrar novo produto
+          Cadastrar novo administrador
         </Button>
       </TopRightContainer>
       {isPopupOpen && (
         <PopupForm
           onSave={handleSave}
           onClose={handleClosePopup}
-          produto={onEdit}
+          adm={onEdit}
         />
       )}
     </>

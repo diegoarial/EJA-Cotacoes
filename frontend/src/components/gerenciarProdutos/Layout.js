@@ -64,7 +64,7 @@ const Layout = () => {
           <BackIcon />
           <Logo src={logoImage} alt="Logo" />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={() => navigate("/Administrador")}>
           <UserIcon />
         </IconButton>
       </Container>

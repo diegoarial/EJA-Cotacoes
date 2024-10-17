@@ -4,6 +4,7 @@ import Home from './components/Home';
 import ProductsApp from './components/gerenciarProdutos/ProductsApp';
 import Cart from './components/enviarPedidoDeCompra/Cart';
 import Client from './components/cotarProdutos/Client';
+import AdmApp from './components/gerenciarAdministradores/AdmApp';
 
 const App = () => {
     return (
@@ -14,6 +15,7 @@ const App = () => {
                     <Route path="/Produtos" element={<ProductsApp />} />
                     <Route path="/Carrinho" element={<Cart />} />
                     <Route path="/Cliente" element={<Client />} />
+                    <Route path="/Administrador" element={<AdmApp />} />
                 </Routes>
             </div>
         </Router>

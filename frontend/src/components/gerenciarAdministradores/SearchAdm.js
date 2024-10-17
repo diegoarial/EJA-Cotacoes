@@ -142,11 +142,11 @@ const Search = ({ searchTerm, setSearchTerm, searchField, setSearchField }) => {
             <StyledOptionButton onClick={() => handleFilterSelection("geral")}>
               Geral
             </StyledOptionButton>
-            <StyledOptionButton onClick={() => handleFilterSelection("título")}>
-              Título
+            <StyledOptionButton onClick={() => handleFilterSelection("usuario")}>
+              Usuario
             </StyledOptionButton>
-            <StyledOptionButton onClick={() => handleFilterSelection("SKU")}>
-              SKU
+            <StyledOptionButton onClick={() => handleFilterSelection("nome")}>
+              Nome
             </StyledOptionButton>
           </ModalContent>
         </>

@@ -61,6 +61,7 @@ function ProductsApp() {
 
   useEffect(() => {
     getFilteredProducts(searchTerm);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, searchField]);
 
   // Organização da página

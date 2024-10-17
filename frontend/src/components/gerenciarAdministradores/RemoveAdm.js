@@ -74,7 +74,7 @@ const ButtonCancel = styled.button`
   height: 42px;
 `;
 
-// Organização do popup de confirmar a remoção de um produto
+// Organização do popup de confirmar a remoção de um administrador
 const RemoveAdm = ({ isOpen, onClose, onConfirm }) => {
   return (
     <PopupContainer isOpen={isOpen}>

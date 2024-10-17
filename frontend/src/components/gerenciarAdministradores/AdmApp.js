@@ -28,12 +28,13 @@ function AdmApp() {
 
   //Função de filtragem
   const filterAdms = (adms, field, term) => {
+    // eslint-disable-next-line default-case
     switch (field) {
       case "geral":
         return adms.filter(
           (adm) =>
-            adm.titulo.toLowerCase().includes(term.toLowerCase()) ||
-            String(adm.idAdm).includes(term)
+            adm.nome.toLowerCase().includes(term.toLowerCase()) ||
+            adm.usuario.toLowerCase().includes(term.toLowerCase())
         );
       case "nome":
         return adms.filter((adm) =>
@@ -49,9 +50,9 @@ function AdmApp() {
   // Deixar em ordem alfabética
   const getFilteredAdms = async (term) => {
     try {
-      const res = await axios.get("http://localhost:8800/produto/");
+      const res = await axios.get("http://localhost:8800/administrador/");
       const filtered = filterAdms(res.data, searchField, searchTerm);
-      setAdms(filtered.sort((a, b) => (a.titulo > b.titulo ? 1 : -1)));
+      setAdms(filtered.sort((a, b) => (a.nome > b.nome ? 1 : -1)));
     } catch (error) {
       toast.error(error);
     }
