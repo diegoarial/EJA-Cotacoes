@@ -12,23 +12,23 @@ import "react-toastify/dist/ReactToastify.css";
 // Estilização da página
 const Container = styled.div`
   width: 100%;
-  max-width: 800px;
-  margin: 20px auto;
+  max-width: 50rem;
+  margin: 1.25rem auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 0 20px;
+  gap: 0.625rem;
+  padding: 0 1.25rem;
 `;
 
 const Button = styled.button`
-  padding: 10px;
+  padding: 0.625rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   border: none;
   background-color: #2c73d2;
   color: white;
-  height: 42px;
+  height: 2.625rem;
 `;
 
 const TopRightContainer = styled.div`
@@ -37,9 +37,9 @@ const TopRightContainer = styled.div`
   align-items: flex-start;
   width: 100%;
   position: absolute;
-  top: 82px;
-  right: 20px;
-  margin-top: 10px;
+  top: 5.125rem;
+  right: 1.25rem;
+  margin-top: 0.625rem;
 `;
 
 const Cart = () => {
@@ -49,13 +49,15 @@ const Cart = () => {
   useEffect(() => {
     const fetchCarrinho = async () => {
       try {
-        const response = await axios.get("http://localhost:8800/carrinho/produtos/");
+        const response = await axios.get(
+          "http://localhost:8800/carrinho/produtos/"
+        );
         setProdutos(response.data);
       } catch (error) {
         console.error("Erro ao buscar produtos do carrinho:", error);
       }
     };
-  
+
     fetchCarrinho();
   }, []);
 
@@ -66,7 +68,9 @@ const Cart = () => {
         toast.success("Carrinho esvaziado!", { position: "bottom-left" });
         setProdutos([]);
       } else {
-        toast.error("Erro ao esvaziar o carrinho.", { position: "bottom-left" });
+        toast.error("Erro ao esvaziar o carrinho.", {
+          position: "bottom-left",
+        });
       }
     } catch (error) {
       console.error("Erro ao esvaziar o carrinho:", error);

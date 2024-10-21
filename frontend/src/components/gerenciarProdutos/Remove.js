@@ -19,11 +19,11 @@ const PopupContainer = styled.div`
 
 // Estilização da confirmação do popup
 const ConfirmContainer = styled.div`
-  width: 500px;
+  width: 31.25rem;
   background-color: #fff;
-  padding: 20px;
-  box-shadow: 0px 0px 5px #ccc;
-  border-radius: 5px;
+  padding: 1.25rem;
+  box-shadow: 0px 0px 0.3125rem #ccc;
+  border-radius: 0.3125rem;
   position: relative;
   text-align: center;
 `;
@@ -31,9 +31,9 @@ const ConfirmContainer = styled.div`
 // Estilização do botão de fechar
 const CloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 5px;
+  top: 0.625rem;
+  right: 0.625rem;
+  padding: 0.3125rem;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -41,37 +41,37 @@ const CloseButton = styled.button`
 
 // Estilização da Mensagem
 const Message = styled.p`
-  font-size: 16px;
-  margin: 20px 0;
+  font-size: 1rem;
+  margin: 1.25rem 0;
 `;
 
 // Estilização do botão do conteiner
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 0.625rem;
 `;
 
 // Estilização do botão de confirmar a exclusão
 const ButtonConfirm = styled.button`
-  padding: 10px;
+  padding: 0.625rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   border: none;
   background-color: #2c73d2;
   color: white;
-  height: 42px;
+  height: 2.625rem;
 `;
 
 // Estilização do botão de cancelar a exclusão
 const ButtonCancel = styled.button`
-  padding: 10px;
+  padding: 0.625rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   border: 1px solid blue;
   background-color: #fff;
   color: #2c73d2;
-  height: 42px;
+  height: 2.625rem;
 `;
 
 // Organização do popup de confirmar a remoção de um produto

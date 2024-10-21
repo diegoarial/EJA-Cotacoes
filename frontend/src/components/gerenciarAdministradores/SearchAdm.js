@@ -7,11 +7,11 @@ const SearchWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   background-color: #f9f9f9;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0.625rem;
+  border-radius: 0.3125rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
   width: 100%;
   z-index: 2;
 `;
@@ -24,21 +24,21 @@ const InputWrapper = styled.div`
 // Estilização da barra de pesquisa
 const Input = styled.input`
   width: 93%;
-  padding: 12px 40px 12px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+  border: 0.0625rem solid #ddd;
+  border-radius: 0.25rem;
   outline: none;
   transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   &:focus {
     border-color: #2c73d2;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    box-shadow: 0 0 0 0.125rem rgba(0, 123, 255, 0.25);
   }
 `;
 
 // Estilização do icon de pesquisar
 const SearchIcon = styled(FaSearch)`
   position: absolute;
-  right: 12px;
+  right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
   color: #000;
@@ -49,9 +49,9 @@ const StyledFilterButton = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 9px 9px;
+  padding: 0.5625rem;
   border-radius: 50%;
-  margin-left: 8px;
+  margin-left: 0.5rem;
   transform-origin: center;
   display: flex;
   align-items: center;
@@ -68,9 +68,9 @@ const StyledOptionButton = styled.button`
   background-color: #2c73d2;
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  margin: 8px 0;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
   cursor: pointer;
   &:hover {
     background-color: #0056b3;
@@ -94,11 +94,11 @@ const Overlay = styled.div`
 // Estilização do popup de filtragem
 const ModalContent = styled.div`
   background: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.25rem;
+  border-radius: 0.3125rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
   width: auto;
-  max-width: 300px;
+  max-width: 18.75rem;
   max-height: 90vh;
   overflow-y: auto;
   z-index: 1001;
@@ -142,7 +142,9 @@ const Search = ({ searchTerm, setSearchTerm, searchField, setSearchField }) => {
             <StyledOptionButton onClick={() => handleFilterSelection("geral")}>
               Geral
             </StyledOptionButton>
-            <StyledOptionButton onClick={() => handleFilterSelection("usuario")}>
+            <StyledOptionButton
+              onClick={() => handleFilterSelection("usuario")}
+            >
               Usuario
             </StyledOptionButton>
             <StyledOptionButton onClick={() => handleFilterSelection("nome")}>

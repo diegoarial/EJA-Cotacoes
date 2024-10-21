@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { VscClose } from "react-icons/vsc";
 
-// Estilização do pop-up
 const PopupContainer = styled.div`
   position: fixed;
   top: 50%;
@@ -17,124 +16,111 @@ const PopupContainer = styled.div`
   z-index: 100;
 `;
 
-// Estilização do formulário dentro do pop-up
 const FormContainer = styled.form`
-  width: 750px;
+  width: 47rem;
   display: flex;
   align-items: flex-end;
-  gap: 30px;
+  gap: 1.875rem;
   flex-wrap: wrap;
   background-color: #fff;
-  padding: 20px;
-  box-shadow: 0px 0px 5px #ccc;
-  border-radius: 5px;
+  padding: 1.25rem;
+  box-shadow: 0rem 0rem 0.3125rem #ccc;
+  border-radius: 0.3125rem;
   position: relative;
 `;
 
-// Caixa do botão para centralizá-lo
 const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
 `;
 
-// Estilização do botão de fechar no canto superior direito
 const CloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 5px;
+  top: 0.625rem;
+  right: 0.625rem;
+  padding: 0.3125rem;
   border: none;
   background: transparent;
   cursor: pointer;
 `;
 
-// Estiliza o botão de cancelar
 const ButtonCancel = styled.button`
-  width: 100px;
-  padding: 10px;
+  width: 6.25rem;
+  padding: 0.625rem;
   cursor: pointer;
-  border-radius: 5px;
-  border: 1px solid blue;
+  border-radius: 0.3125rem;
+  border: 0.0625rem solid blue;
   background-color: #fff;
   color: #2c73d2;
-  height: 42px;
-  margin-top: 20px;
+  height: 2.625rem;
+  margin-top: 1.25rem;
 `;
 
-// Título do pop-up
 const PopupTitle = styled.h2`
   width: 100%;
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 0.3125rem;
   color: #333;
 `;
 
-// Mensagem do pop-up
 const PopupMsg = styled.h4`
   width: 100%;
   text-align: center;
   color: #333;
 `;
 
-// Edita a área de escrita
 const InputArea = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-// Input dentro de um input
 const InputContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
 `;
 
-// Caixa do Símbolo
 const CurrencySymbolBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 0 10px;
+  min-height: 2.5rem;
+  border: 0.0625rem solid #ddd;
+  border-radius: 0.3125rem;
+  padding: 0 0.625rem;
   background-color: #f8f9fa;
 `;
 
-// Colocar símbolo dentro da caixa
 const CurrencySymbolText = styled.span`
-  font-size: 18px;
+  font-size: 1.125rem;
   color: #555;
 `;
 
-// Tamanho da caixa de input do título
 const InputTitle = styled.input`
-  width: 730px;
-  padding: 0 10px;
-  border: 1px solid #bbb;
-  border-radius: 5px;
-  height: 40px;
+  width: 45.625rem;
+  padding: 0 0.625rem;
+  border: 0.0625rem solid #bbb;
+  border-radius: 0.3125rem;
+  height: 2.5rem;
   max-width: 100%;
 `;
 
-// Tamanho da caixa de input dos preços com restrições de números e decimais
 const InputPrice = styled.input`
-  width: 687px;
-  padding: 0 10px;
-  border: 1px solid #bbb;
-  border-radius: 5px;
-  height: 40px;
+  width: 42.9375rem;
+  padding: 0 0.625rem;
+  border: 0.0625rem solid #bbb;
+  border-radius: 0.3125rem;
+  height: 2.5rem;
   max-width: 100%;
 `;
 
-// Tamanho das caixas de input das medidas
 const InputMeasures = styled.input`
-  width: 143px;
-  padding: 0 10px;
-  border: 1px solid #bbb;
-  border-radius: 5px;
-  height: 40px;
+  width: 8.9375rem;
+  padding: 0 0.625rem;
+  border: 0.0625rem solid #bbb;
+  border-radius: 0.3125rem;
+  height: 2.5rem;
   max-width: 100%;
 `;
 
@@ -237,16 +223,7 @@ const FormCli = ({ produto, onClose }) => {
     }
   }, [produto, onClose]);
 
-  return (
-    <>
-      {produto && (
-        <PopupForm
-          onClose={onClose}
-          produto={produto}
-        />
-      )}
-    </>
-  );
+  return <>{produto && <PopupForm onClose={onClose} produto={produto} />}</>;
 };
 
 export default FormCli;

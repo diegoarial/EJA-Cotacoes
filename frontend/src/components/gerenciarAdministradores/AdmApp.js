@@ -12,12 +12,12 @@ import LayoutAdm from "./LayoutAdm.js";
 // Estilização da página
 const Container = styled.div`
   width: 100%;
-  max-width: 800px;
-  margin-top: 20px;
+  max-width: 50rem;
+  margin-top: 1.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
 `;
 
 function AdmApp() {
@@ -33,12 +33,16 @@ function AdmApp() {
       case "geral":
         return adms.filter(
           (adm) =>
-            adm.nome.toLowerCase().includes(term.toLowerCase()) ||
+            (adm.nome + " " + adm.sobrenome)
+              .toLowerCase()
+              .includes(term.toLowerCase()) ||
             adm.usuario.toLowerCase().includes(term.toLowerCase())
         );
       case "nome":
         return adms.filter((adm) =>
-          adm.nome.toLowerCase().includes(term.toLowerCase())
+          (adm.nome + " " + adm.sobrenome)
+            .toLowerCase()
+            .includes(term.toLowerCase())
         );
       case "usuario":
         return adms.filter((adm) =>

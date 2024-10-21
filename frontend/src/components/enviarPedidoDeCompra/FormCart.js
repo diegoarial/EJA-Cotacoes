@@ -21,15 +21,15 @@ const PopupContainer = styled.div`
 
 // Estilização do formulário dentro do pop-up
 const FormContainer = styled.form`
-  width: 750px;
+  width: 46.875rem;
   display: flex;
   align-items: flex-end;
-  gap: 30px;
+  gap: 1.875rem;
   flex-wrap: wrap;
   background-color: #fff;
-  padding: 20px;
-  box-shadow: 0px 0px 5px #ccc;
-  border-radius: 5px;
+  padding: 1.25rem;
+  box-shadow: 0rem 0rem 0.3125rem #ccc;
+  border-radius: 0.3125rem;
   position: relative;
 `;
 
@@ -43,9 +43,9 @@ const ButtonContainer = styled.div`
 // Estilização do botão de fechar no canto superior direito
 const CloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 5px;
+  top: 0.625rem;
+  right: 0.625rem;
+  padding: 0.3125rem;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -59,11 +59,11 @@ const InputArea = styled.div`
 
 // Tamanho da caixa de input dos dados do cliente
 const InputClient = styled.input`
-  width: 205px;
-  padding: 0 10px;
+  width: 12.8125rem;
+  padding: 0 0.625rem;
   border: 1px solid #bbb;
-  border-radius: 5px;
-  height: 40px;
+  border-radius: 0.3125rem;
+  height: 2.5rem;
   max-width: 100%;
 `;
 
@@ -71,34 +71,34 @@ const Label = styled.label``;
 
 // Estiliza o botão de salvar
 const ButtonSave = styled.button`
-  width: 100px;
-  padding: 10px;
+  width: 6.25rem;
+  padding: 0.625rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   border: none;
   background-color: #2c73d2;
   color: white;
-  height: 42px;
-  margin-right: 10px;
+  height: 2.625rem;
+  margin-right: 0.625rem;
 `;
 
 // Estiliza o botão de cancelar
 const ButtonCancel = styled.button`
-  width: 100px;
-  padding: 10px;
+  width: 6.25rem;
+  padding: 0.625rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   border: 1px solid blue;
   background-color: #fff;
   color: #2c73d2;
-  height: 42px;
+  height: 2.625rem;
 `;
 
 // Título do pop-up
 const PopupTitle = styled.h2`
   width: 100%;
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 0.3125rem;
   color: #333;
 `;
 
@@ -126,7 +126,9 @@ const FormCart = ({ onSave, onClose, cliente }) => {
 
     if (validateCPF(cpf)) {
       try {
-        const response = await axios.get(`http://localhost:8800/cliente/${cpf}`);
+        const response = await axios.get(
+          `http://localhost:8800/cliente/${cpf}`
+        );
         if (response.data) {
           setFormData(response.data);
           toast.info("Cliente encontrado e dados preenchidos!");
@@ -217,7 +219,9 @@ const FormCart = ({ onSave, onClose, cliente }) => {
             maxLength="40"
             type="text"
             value={formData.sobrenome || ""}
-            onChange={(e) => setFormData({ ...formData, sobrenome: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, sobrenome: e.target.value })
+            }
           />
         </InputArea>
         <InputArea>
@@ -228,7 +232,9 @@ const FormCart = ({ onSave, onClose, cliente }) => {
             type="text"
             value={formData.telefone || ""}
             placeholder="(xx) xxxxx-xxxx"
-            onChange={(e) => setFormData({ ...formData, telefone: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, telefone: e.target.value })
+            }
           />
         </InputArea>
         <InputArea>
@@ -239,7 +245,9 @@ const FormCart = ({ onSave, onClose, cliente }) => {
             type="email"
             value={formData.email || ""}
             placeholder="xxx@xxx.xxx"
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
           />
         </InputArea>
         <InputArea>
@@ -249,7 +257,9 @@ const FormCart = ({ onSave, onClose, cliente }) => {
             maxLength="50"
             type="text"
             value={formData.empresa || ""}
-            onChange={(e) => setFormData({ ...formData, empresa: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, empresa: e.target.value })
+            }
           />
         </InputArea>
         <ButtonContainer>

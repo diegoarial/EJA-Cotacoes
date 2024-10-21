@@ -9,12 +9,12 @@ import Remove from "./Remove.js";
 const Table = styled.table`
   width: 100%;
   height: auto;
-  width: 800px;
+  width: 50rem;
   background-color: #fff;
-  padding: 20px;
-  box-shadow: 0px 0px 5px #ccc;
-  border-radius: 5px;
-  margin: 20px auto;
+  padding: 1.25rem;
+  box-shadow: 0px 0px 0.3125rem #ccc;
+  border-radius: 0.3125rem;
+  margin: 1.25rem auto;
   word-break: break-all;
 `;
 
@@ -27,19 +27,19 @@ export const Tr = styled.tr``;
 export const Th = styled.th`
   text-align: start;
   border-bottom: inset;
-  padding-bottom: 5px;
+  padding-bottom: 0.3125rem;
 
-  @media (max-width: 500px) {
+  @media (max-width: 31.25rem) {
     ${(props) => props.onlyweb && "display: none"}
   }
 `;
 
 export const Td = styled.td`
-  padding-top: 15px;
+  padding-top: 0.9375rem;
   text-align: ${(props) => (props.alignCenter ? "center" : "start")};
   width: ${(props) => (props.width ? props.width : "auto")};
 
-  @media (max-width: 500px) {
+  @media (max-width: 31.25rem) {
     ${(props) => props.onlyweb && "display: none"}
   }
 `;
@@ -51,13 +51,13 @@ const IconContainer = styled.div`
 // Edição e posicionamento do icon de editar
 const EditIcon = styled(FaEdit)`
   display: inline-block;
-  width: 16px;
-  height: 16px;
-  line-height: 16px;
+  width: 1rem;
+  height: 1rem;
+  line-height: 1rem;
   text-align: center;
   cursor: pointer;
   transition: none;
-  border: 2px solid transparent;
+  border: 0.125rem solid transparent;
   border-radius: 50%;
   transform-origin: top center;
   z-index: 1;
@@ -72,15 +72,14 @@ const EditIcon = styled(FaEdit)`
 // Edição e posicionamento do icon de remover
 const DeleteIcon = styled(FaTrash)`
   display: inline-block;
-  width: 16px;
-  height: 16px;
-  line-height: 16px;
+  width: 1rem;
+  height: 1rem;
+  line-height: 1rem;
   text-align: center;
   cursor: pointer;
   transition: none;
-  border: 2px solid transparent;
-  border-radius: 45%;
-  transform-origin: top center;
+  border: 0.125rem solid transparent;
+  border-radius: 2.8125rem;
 
   &:hover {
     transform: scale(1.3);

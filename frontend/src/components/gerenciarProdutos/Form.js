@@ -4,7 +4,6 @@ import { VscClose } from "react-icons/vsc";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 
-// Estilização do pop-up
 const PopupContainer = styled.div`
   position: fixed;
   top: 50%;
@@ -19,147 +18,133 @@ const PopupContainer = styled.div`
   z-index: 100;
 `;
 
-// Estilização do formulário dentro do pop-up
 const FormContainer = styled.form`
-  width: 750px;
+  width: 46.875rem;
   display: flex;
   align-items: flex-end;
-  gap: 30px;
+  gap: 1.875rem;
   flex-wrap: wrap;
   background-color: #fff;
-  padding: 20px;
-  box-shadow: 0px 0px 5px #ccc;
-  border-radius: 5px;
+  padding: 1.25rem;
+  box-shadow: 0rem 0rem 0.313rem #ccc;
+  border-radius: 0.313rem;
   position: relative;
 `;
 
-// Caixa do botão para centralizá-lo
 const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
 `;
 
-// Estilização do botão de fechar no canto superior direito
 const CloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 5px;
+  top: 0.625rem;
+  right: 0.625rem;
+  padding: 0.313rem;
   border: none;
   background: transparent;
   cursor: pointer;
 `;
 
-// Edita a área de escrita
 const InputArea = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-// Input dentro de um input
 const InputContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
 `;
 
-// Caixa do Símbolo
 const CurrencySymbolBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 0 10px;
+  min-height: 2.5rem;
+  border: 0.063rem solid #ddd;
+  border-radius: 0.313rem;
+  padding: 0 0.625rem;
   background-color: #f8f9fa;
 `;
 
-// Colocar símbolo dentro da caixa
 const CurrencySymbolText = styled.span`
-  font-size: 18px;
+  font-size: 1.125rem;
   color: #555;
 `;
 
-// Tamanho da caixa de input do título
 const InputTitle = styled.input`
-  width: 730px;
-  padding: 0 10px;
-  border: 1px solid #bbb;
-  border-radius: 5px;
-  height: 40px;
+  width: 45.625rem;
+  padding: 0 0.625rem;
+  border: 0.063rem solid #bbb;
+  border-radius: 0.313rem;
+  height: 2.5rem;
   max-width: 100%;
 `;
 
-// Tamanho da caixa de input dos preços com restrições de números e decimais
 const InputPrice = styled.input`
-  width: 292px;
-  padding: 0 10px;
-  border: 1px solid #bbb;
-  border-radius: 5px;
-  height: 40px;
+  width: 18.25rem;
+  padding: 0 0.625rem;
+  border: 0.063rem solid #bbb;
+  border-radius: 0.313rem;
+  height: 2.5rem;
   max-width: 100%;
 `;
 
-// Tamanho das caixas de input das medidas
 const InputMeasures = styled.input`
-  width: 143px;
-  padding: 0 10px;
-  border: 1px solid #bbb;
-  border-radius: 5px;
-  height: 40px;
+  width: 8.938rem;
+  padding: 0 0.625rem;
+  border: 0.063rem solid #bbb;
+  border-radius: 0.313rem;
+  height: 2.5rem;
   max-width: 100%;
-  }`;
+`;
 
 const Label = styled.label``;
 
-// Estiliza o botão de cadastrar
 const Button = styled.button`
-  padding: 10px;
+  padding: 0.625rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.313rem;
   border: none;
   background-color: #2c73d2;
   color: white;
-  height: 42px;
+  height: 2.625rem;
 `;
 
-// Contêiner para alinhar o botão no canto superior direito
 const TopRightContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
   width: 100%;
   position: absolute;
-  top: 82px;
-  right: 20px;
-  margin-top: 10px;
+  top: 5.125rem;
+  right: 1.25rem;
+  margin-top: 0.625rem;
 `;
 
-// Estiliza o botão de salvar
 const ButtonSave = styled.button`
-  width: 100px;
-  padding: 10px;
+  width: 6.25rem;
+  padding: 0.625rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.313rem;
   border: none;
   background-color: #2c73d2;
   color: white;
-  height: 42px;
-  margin-right: 10px;
+  height: 2.625rem;
+  margin-right: 0.625rem;
 `;
 
-// Estiliza o botão de cancelar
 const ButtonCancel = styled.button`
-  width: 100px;
-  padding: 10px;
+  width: 6.25rem;
+  padding: 0.625rem;
   cursor: pointer;
-  border-radius: 5px;
-  border: 1px solid blue;
+  border-radius: 0.313rem;
+  border: 0.063rem solid blue;
   background-color: #fff;
   color: #2c73d2;
-  height: 42px;
+  height: 2.625rem;
 `;
 
 // Obriga a preencher todos os campos para salvar

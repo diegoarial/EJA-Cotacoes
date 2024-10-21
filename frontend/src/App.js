@@ -5,6 +5,7 @@ import ProductsApp from './components/gerenciarProdutos/ProductsApp';
 import Cart from './components/enviarPedidoDeCompra/Cart';
 import Client from './components/cotarProdutos/Client';
 import AdmApp from './components/gerenciarAdministradores/AdmApp';
+import History from './components/gerenciarHistorico/History';
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                     <Route path="/Carrinho" element={<Cart />} />
                     <Route path="/Cliente" element={<Client />} />
                     <Route path="/Administrador" element={<AdmApp />} />
+                    <Route path="/Historico" element={<History />} />
                 </Routes>
             </div>
         </Router>

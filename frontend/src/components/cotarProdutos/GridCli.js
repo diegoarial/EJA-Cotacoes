@@ -3,20 +3,19 @@ import styled from "styled-components";
 import { FiPlusCircle, FiMinusCircle, FiEye } from "react-icons/fi";
 import { FaCartPlus } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import FormCli from "./FormCli";
 import axios from "axios";
 
-// Edição da tabela do Grid 
 const Table = styled.table`
   width: 100%;
   height: auto;
-  width: 800px;
+  width: 50rem;
   background-color: #fff;
-  padding: 20px;
-  box-shadow: 0px 0px 5px #ccc;
-  border-radius: 5px;
-  margin: 20px auto;
+  padding: 1.25rem;
+  box-shadow: 0rem 0rem 0.3125rem #ccc;
+  border-radius: 0.3125rem;
+  margin: 1.25rem auto;
   word-break: break-all;
 `;
 
@@ -29,19 +28,19 @@ export const Tr = styled.tr``;
 export const Th = styled.th`
   text-align: start;
   border-bottom: inset;
-  padding-bottom: 5px;
+  padding-bottom: 0.3125rem;
 
-  @media (max-width: 500px) {
+  @media (max-width: 31.25rem) {
     ${(props) => props.onlyweb && "display: none"}
   }
 `;
 
 export const Td = styled.td`
-  padding-top: 15px;
+  padding-top: 0.9375rem;
   text-align: ${(props) => (props.alignCenter ? "center" : "start")};
   width: ${(props) => (props.width ? props.width : "auto")};
 
-  @media (max-width: 500px) {
+  @media (max-width: 31.25rem) {
     ${(props) => props.onlyweb && "display: none"}
   }
 `;
@@ -50,16 +49,15 @@ const IconContainer = styled.div`
   overflow: visible;
 `;
 
-// Edição e posicionamento do icon de mais
 const PlusIcon = styled(FiPlusCircle)`
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 16px;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1rem;
   text-align: center;
   cursor: pointer;
   transition: none;
-  border: 2px solid transparent;
+  border: 0.125rem solid transparent;
   border-radius: 50%;
   transform-origin: top center;
   z-index: 1;
@@ -71,16 +69,15 @@ const PlusIcon = styled(FiPlusCircle)`
   }
 `;
 
-// Edição e posicionamento do icon de menos
 const MinusIcon = styled(FiMinusCircle)`
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 16px;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1rem;
   text-align: center;
   cursor: pointer;
   transition: none;
-  border: 2px solid transparent;
+  border: 0.125rem solid transparent;
   border-radius: 45%;
   transform-origin: top center;
 
@@ -93,13 +90,13 @@ const MinusIcon = styled(FiMinusCircle)`
 
 const EyeIcon = styled(FiEye)`
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 16px;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1rem;
   text-align: center;
   cursor: pointer;
   transition: none;
-  border: 2px solid transparent;
+  border: 0.125rem solid transparent;
   border-radius: 50%;
   transform-origin: top center;
   z-index: 1;
@@ -113,13 +110,13 @@ const EyeIcon = styled(FiEye)`
 
 const CartPlusIcon = styled(FaCartPlus)`
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 16px;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1rem;
   text-align: center;
   cursor: pointer;
   transition: none;
-  border: 2px solid transparent;
+  border: 0.125rem solid transparent;
   border-radius: 40%;
   transform-origin: top center;
   z-index: 1;
@@ -133,20 +130,19 @@ const CartPlusIcon = styled(FaCartPlus)`
 
 const NumberInput = styled.input`
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.5rem;
+  border: 0.0625rem solid #ddd;
+  border-radius: 0.25rem;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 0.875rem;
   text-align: center;
 
   &:focus {
     border-color: #2c73d2;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    box-shadow: 0 0 0 0.125rem rgba(0, 123, 255, 0.25);
   }
 `;
-
 
 const GridCli = ({ produtos }) => {
   const [isFormCliOpen, setIsFormCliOpen] = useState(false);
@@ -161,10 +157,10 @@ const GridCli = ({ produtos }) => {
   // Função para lidar com mudanças no input e permitir apenas números inteiros
   const handleInputChange = (e, idProduto) => {
     const value = e.target.value;
-    if (value === '' || /^\d+$/.test(value)) {
+    if (value === "" || /^\d+$/.test(value)) {
       setValues((prevValues) => ({
         ...prevValues,
-        [idProduto]: value
+        [idProduto]: value,
       }));
     }
   };
@@ -175,7 +171,7 @@ const GridCli = ({ produtos }) => {
       const currentValue = parseInt(prevValues[idProduto] || 0, 10);
       return {
         ...prevValues,
-        [idProduto]: currentValue + 1
+        [idProduto]: currentValue + 1,
       };
     });
   };
@@ -186,7 +182,7 @@ const GridCli = ({ produtos }) => {
       const currentValue = parseInt(prevValues[idProduto] || 0, 10);
       return {
         ...prevValues,
-        [idProduto]: Math.max(0, currentValue - 1)
+        [idProduto]: Math.max(0, currentValue - 1),
       };
     });
   };
@@ -204,9 +200,11 @@ const GridCli = ({ produtos }) => {
         await axios.post("http://localhost:8800/carrinho/", {
           idProduto: parseInt(idProduto, 10),
           quantidade: parseInt(quantidade, 10),
-          precoVenda: produtos.find(produto => produto.idProduto === parseInt(idProduto, 10)).precoVenda,
+          precoVenda: produtos.find(
+            (produto) => produto.idProduto === parseInt(idProduto, 10)
+          ).precoVenda,
         });
-  
+
         toast.success(`Produto adicionado ao carrinho!`, {
           position: "bottom-left",
           autoClose: 3000,
@@ -218,7 +216,7 @@ const GridCli = ({ produtos }) => {
         });
         setValues((prevValues) => ({
           ...prevValues,
-          [idProduto]: ''
+          [idProduto]: "",
         }));
       } catch (error) {
         console.error("Erro ao adicionar produto ao carrinho:", error);
@@ -273,7 +271,7 @@ const GridCli = ({ produtos }) => {
               <Td>
                 <NumberInput
                   type="text"
-                  value={values[item.idProduto] || ''}
+                  value={values[item.idProduto] || ""}
                   onChange={(e) => handleInputChange(e, item.idProduto)}
                 />
               </Td>
@@ -289,7 +287,14 @@ const GridCli = ({ produtos }) => {
               </Td>
               <Td style={{ textAlign: "center" }} width="5%">
                 <IconContainer>
-                  <CartPlusIcon onClick={() => handleAddToCart(item.idProduto, values[item.idProduto] || 0)} />
+                  <CartPlusIcon
+                    onClick={() =>
+                      handleAddToCart(
+                        item.idProduto,
+                        values[item.idProduto] || 0
+                      )
+                    }
+                  />
                 </IconContainer>
               </Td>
             </Tr>

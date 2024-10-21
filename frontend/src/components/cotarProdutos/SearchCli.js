@@ -7,11 +7,11 @@ const SearchWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   background-color: #f9f9f9;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0.625rem;
+  border-radius: 0.3125rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
   width: 100%;
   z-index: 2;
 `;
@@ -21,24 +21,22 @@ const InputWrapper = styled.div`
   flex-grow: 1;
 `;
 
-// Estilização da barra de pesquisa
 const Input = styled.input`
   width: 93%;
-  padding: 12px 40px 12px 12px;
+  padding: 0.75rem 2.5rem 0.75rem 0.75rem;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   outline: none;
   transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   &:focus {
     border-color: #2c73d2;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    box-shadow: 0 0 0 0.125rem rgba(0, 123, 255, 0.25);
   }
 `;
 
-// Estilização do ícone de pesquisar
 const SearchIcon = styled(FaSearch)`
   position: absolute;
-  right: 12px;
+  right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
   color: #000;

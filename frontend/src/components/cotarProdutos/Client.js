@@ -10,13 +10,13 @@ import "react-toastify/dist/ReactToastify.css";
 // Estilização da página
 const Container = styled.div`
   width: 100%;
-  max-width: 800px;
-  margin: 20px auto;
+  max-width: 50rem;
+  margin: 1.25rem auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 0 20px;
+  gap: 0.625rem;
+  padding: 0 1.25rem;
 `;
 
 function Client() {

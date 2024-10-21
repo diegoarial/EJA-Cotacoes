@@ -3,18 +3,18 @@ import styled from "styled-components";
 import { FaTrash } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
-import RemoveCart from "./RemoveCart"; 
+import RemoveCart from "./RemoveCart";
 
 // Estilização da tabela do Grid
 const Table = styled.table`
   width: 100%;
   height: auto;
-  width: 800px;
+  width: 50rem;
   background-color: #fff;
-  padding: 20px;
-  box-shadow: 0px 0px 5px #ccc;
-  border-radius: 5px;
-  margin: 20px auto;
+  padding: 1.25rem;
+  box-shadow: 0rem 0rem 0.3125rem #ccc;
+  border-radius: 0.3125rem;
+  margin: 1.25rem auto;
   word-break: break-all;
   text-align: center;
 `;
@@ -28,19 +28,19 @@ export const Tr = styled.tr``;
 export const Th = styled.th`
   text-align: start;
   border-bottom: inset;
-  padding-bottom: 5px;
+  padding-bottom: 0.3125rem;
 
-  @media (max-width: 500px) {
+  @media (max-width: 31.25rem) {
     ${(props) => props.onlyweb && "display: none"}
   }
 `;
 
 export const Td = styled.td`
-  padding-top: 15px;
+  padding-top: 0.9375rem;
   text-align: ${(props) => (props.alignCenter ? "center" : "start")};
   width: ${(props) => (props.width ? props.width : "auto")};
 
-  @media (max-width: 500px) {
+  @media (max-width: 31.25rem) {
     ${(props) => props.onlyweb && "display: none"}
   }
 `;
@@ -51,13 +51,13 @@ const IconContainer = styled.div`
 
 const DeleteIcon = styled(FaTrash)`
   display: inline-block;
-  width: 16px;
-  height: 16px;
-  line-height: 16px;
+  width: 1rem;
+  height: 1rem;
+  line-height: 1rem;
   text-align: center;
   cursor: pointer;
   transition: none;
-  border: 2px solid transparent;
+  border: 0.125rem solid transparent;
   border-radius: 45%;
   transform-origin: top center;
 
@@ -85,12 +85,14 @@ const GridCart = ({ produtos, setProdutos }) => {
   const handleRemoveProduct = async () => {
     try {
       await axios.delete("http://localhost:8800/carrinho/remover", {
-        data: { idProdutoCarrinho: productToRemove.idProdutoCarrinho }
+        data: { idProdutoCarrinho: productToRemove.idProdutoCarrinho },
       });
       toast.success("Produto removido do carrinho!");
 
       setProdutos((prevProdutos) =>
-        prevProdutos.filter(item => item.idProdutoCarrinho !== productToRemove.idProdutoCarrinho)
+        prevProdutos.filter(
+          (item) => item.idProdutoCarrinho !== productToRemove.idProdutoCarrinho
+        )
       );
     } catch (error) {
       console.error("Erro ao remover produto do carrinho:", error);

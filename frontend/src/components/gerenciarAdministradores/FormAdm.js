@@ -21,15 +21,15 @@ const PopupContainer = styled.div`
 
 // Estilização do formulário dentro do pop-up
 const FormContainer = styled.form`
-  width: 750px;
+  width: 46.875rem;
   display: flex;
   align-items: flex-end;
-  gap: 30px;
+  gap: 1.875rem;
   flex-wrap: wrap;
   background-color: #fff;
-  padding: 20px;
-  box-shadow: 0px 0px 5px #ccc;
-  border-radius: 5px;
+  padding: 1.25rem;
+  box-shadow: 0px 0px 0.3125rem #ccc; 
+  border-radius: 0.3125rem;
   position: relative;
 `;
 
@@ -43,9 +43,9 @@ const ButtonContainer = styled.div`
 // Estilização do botão de fechar no canto superior direito
 const CloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 5px;
+  top: 0.625rem;
+  right: 0.625rem;
+  padding: 0.3125rem;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -66,45 +66,45 @@ const InputContainer = styled.div`
 
 // Tamanho da caixa de input do título
 const InputTitle = styled.input`
-  width: 730px;
-  padding: 0 10px;
+  width: 45.625rem;
+  padding: 0 0.625rem;
   border: 1px solid #bbb;
-  border-radius: 5px;
-  height: 40px;
+  border-radius: 0.3125rem;
+  height: 2.5rem;
   max-width: 100%;
 `;
 
 // Tamanho da caixa de input dos preços com restrições de números e decimais
 const InputPrice = styled.input`
-  width: 292px;
-  padding: 0 10px;
+  width: 18.25rem;
+  padding: 0 0.625rem;
   border: 1px solid #bbb;
-  border-radius: 5px;
-  height: 40px;
+  border-radius: 0.3125rem;
+  height: 2.5rem;
   max-width: 100%;
 `;
 
 // Tamanho das caixas de input das medidas
 const InputMeasures = styled.input`
-  width: 143px;
-  padding: 0 10px;
+  width: 8.9375rem;
+  padding: 0 0.625rem;
   border: 1px solid #bbb;
-  border-radius: 5px;
-  height: 40px;
+  border-radius: 0.3125rem;
+  height: 2.5rem;
   max-width: 100%;
-  }`;
+`;
 
 const Label = styled.label``;
 
 // Estiliza o botão de cadastrar
 const Button = styled.button`
-  padding: 10px;
+  padding: 0.625rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   border: none;
   background-color: #2c73d2;
   color: white;
-  height: 42px;
+  height: 2.625rem;
 `;
 
 // Contêiner para alinhar o botão no canto superior direito
@@ -114,34 +114,34 @@ const TopRightContainer = styled.div`
   align-items: flex-start;
   width: 100%;
   position: absolute;
-  top: 82px;
-  right: 20px;
-  margin-top: 10px;
+  top: 5.125rem;
+  right: 1.25rem;
+  margin-top: 0.625rem;
 `;
 
 // Estiliza o botão de salvar
 const ButtonSave = styled.button`
-  width: 100px;
-  padding: 10px;
+  width: 6.25rem;
+  padding: 0.625rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   border: none;
   background-color: #2c73d2;
   color: white;
-  height: 42px;
-  margin-right: 10px;
+  height: 2.625rem;
+  margin-right: 0.625rem;
 `;
 
 // Estiliza o botão de cancelar
 const ButtonCancel = styled.button`
-  width: 100px;
-  padding: 10px;
+  width: 6.25rem;
+  padding: 0.625rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   border: 1px solid blue;
   background-color: #fff;
   color: #2c73d2;
-  height: 42px;
+  height: 2.625rem;
 `;
 
 // Obriga a preencher todos os campos para salvar
@@ -295,7 +295,7 @@ const FormAdm = ({ getAdms, onEdit, setOnEdit }) => {
     <>
       <TopRightContainer>
         <Button onClick={() => setIsPopupOpen(true)}>
-          Cadastrar novo administrador
+          Cadastrar administrador
         </Button>
       </TopRightContainer>
       {isPopupOpen && (

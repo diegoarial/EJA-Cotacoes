@@ -12,12 +12,12 @@ import Layout from "./Layout.js";
 // Estilização da página
 const Container = styled.div`
   width: 100%;
-  max-width: 800px;
-  margin-top: 20px;
+  max-width: 50rem;
+  margin-top: 1.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
 `;
 
 function ProductsApp() {
@@ -61,7 +61,7 @@ function ProductsApp() {
 
   useEffect(() => {
     getFilteredProducts(searchTerm);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, searchField]);
 
   // Organização da página
