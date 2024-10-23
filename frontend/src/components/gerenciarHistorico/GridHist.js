@@ -1,72 +1,71 @@
 import React from "react";
 import styled from "styled-components";
+import { FaEye, FaDownload } from "react-icons/fa";
 
-// Edição da tabela do Grid
+// Estilização da tabela do Grid
 const Table = styled.table`
   width: 100%;
   height: auto;
-  width: 50rem;
   background-color: #fff;
-  padding: 1.25rem;
-  box-shadow: 0 0 0.3125rem #ccc;
-  border-radius: 0.3125rem;
-  margin: 1.25rem auto;
-  word-break: break-all;
+  padding: 1rem;
+  box-shadow: 0 0 0.25rem #ccc;
+  border-radius: 0.25rem;
+  margin: 1rem auto;
 `;
 
-export const Thead = styled.thead``;
+export const Thead = styled.thead`
+  background-color: #f8f9fa;
+`;
 
 export const Tbody = styled.tbody``;
 
-export const Tr = styled.tr``;
+export const Tr = styled.tr`
+  border-bottom: 1px solid #dee2e6;
+`;
 
 export const Th = styled.th`
   text-align: start;
-  border-bottom: inset;
-  padding-bottom: 0.3125rem;
+  padding: 0.5rem;
 `;
 
 export const Td = styled.td`
-  padding-top: 0.9375rem;
+  padding: 0.75rem;
   text-align: ${(props) => (props.alignCenter ? "center" : "start")};
   width: ${(props) => (props.width ? props.width : "auto")};
-
-  @media (max-width: 31.25rem) {
-    ${(props) => props.onlyweb && "display: none"}
 `;
 
-// Funções da tabela de dados
-const GridHist = () => {
-
-  // Organização do grid
+const GridHist = ({ pedidos }) => {
   return (
-    <>
-      <Table>
-        <Thead>
-          <Tr>
-            <Th>Número Pedido</Th>            
-            <Th>Data</Th>
-            <Th>Nome</Th>
-            <Th>Valor</Th>
-            <Th></Th>
-            <Th></Th>
+    <Table>
+      <Thead>
+        <Tr>
+          <Th>Número Pedido</Th>
+          <Th>Data</Th>
+          <Th>Nome</Th>
+          <Th>Valor</Th>
+          <Th>Ações</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {pedidos.map((pedido) => (
+          <Tr key={pedido.idPedido}>
+            <Td width="20%">{pedido.idPedido}</Td>
+            <Td width="20%">
+              {new Date(pedido.dataPDF).toLocaleDateString()}
+            </Td>
+            <Td width="30%">{pedido.clienteNome}</Td>
+            <Td width="15%" alignCenter>
+              R$ {parseFloat(pedido.valorTotal).toFixed(2)}
+            </Td>
+            <Td style={{ textAlign: "center" }} width="5%">
+              <FaEye style={{ cursor: "pointer", marginRight: "10px" }} title="Pré-visualizar PDF" />
+              <FaDownload style={{ cursor: "pointer" }} title="Baixar PDF" />
+            </Td>
           </Tr>
-        </Thead>
-        <Tbody>
-            <Tr>
-              <Td width="20%"></Td>
-              <Td width="20%"></Td>
-              <Td width="30%"></Td>
-              <Td width="15%"></Td>
-              <Td style={{ textAlign: "center" }} width="5%">
-              </Td>
-            </Tr>
-        </Tbody>
-      </Table>
-    </>
+        ))}
+      </Tbody>
+    </Table>
   );
 };
 
 export default GridHist;
-
-

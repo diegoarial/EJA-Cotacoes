@@ -6,6 +6,7 @@ import Cart from './components/enviarPedidoDeCompra/Cart';
 import Client from './components/cotarProdutos/Client';
 import AdmApp from './components/gerenciarAdministradores/AdmApp';
 import History from './components/gerenciarHistorico/History';
+import Login from './components/Login';
 
 const App = () => {
     return (
@@ -13,6 +14,7 @@ const App = () => {
             <div>
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/Login" element={<Login />} />
                     <Route path="/Produtos" element={<ProductsApp />} />
                     <Route path="/Carrinho" element={<Cart />} />
                     <Route path="/Cliente" element={<Client />} />

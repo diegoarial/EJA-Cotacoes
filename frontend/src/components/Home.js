@@ -56,7 +56,7 @@ const Home = () => {
   return (
     <Container>
       <Logo src={logoImage} alt="Logo" />
-      <ButtonAdm onClick={() => (window.location.href = "/Produtos")}>
+      <ButtonAdm onClick={() => (window.location.href = "/Login")}>
         Administrador
       </ButtonAdm>
       <ButtonCli onClick={() => (window.location.href = "/Cliente")}>
