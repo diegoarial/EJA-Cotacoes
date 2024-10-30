@@ -101,7 +101,18 @@ const Grid = ({ produtos, setProdutos, setOnEdit }) => {
   // Função de Remoção
   const handleDelete = async (idProduto) => {
     try {
-      await axios.put(`http://localhost:8800/produto/${idProduto}/inactivate`);
+      const token = localStorage.getItem("token");
+
+      await axios.put(
+        `http://localhost:8800/produto/${idProduto}/inactivate`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       const newArray = produtos.filter(
         (produto) => produto.idProduto !== idProduto
       );

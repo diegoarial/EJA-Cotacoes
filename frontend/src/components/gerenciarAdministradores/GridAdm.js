@@ -102,9 +102,18 @@ const GridAdm = ({ adms, setAdms, setOnEdit }) => {
   // Função de Remoção
   const handleDelete = async (idAdm) => {
     try {
+      const token = localStorage.getItem("token");
+
       await axios.put(
-        `http://localhost:8800/administrador/${idAdm}/inactivate`
+        `http://localhost:8800/administrador/${idAdm}/inactivate`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+
       const newArray = adms.filter((adm) => adm.idAdm !== idAdm);
       setAdms(newArray);
       toast.success("Administrador removido com sucesso.");

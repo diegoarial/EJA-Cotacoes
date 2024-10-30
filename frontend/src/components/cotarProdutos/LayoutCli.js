@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FaArrowLeft, FaShoppingCart, FaHistory } from "react-icons/fa";
+import { FaArrowLeft, FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import logoImage from "D:/EJAcotacoes/frontend/src/components/logo.png";
 
@@ -40,13 +40,6 @@ const Cart = styled(FaShoppingCart)`
   margin-right: 3.125rem;
 `;
 
-// Estilização do ícone de histórico
-const History = styled(FaHistory)`
-  color: #fff;
-  font-size: 1.25rem;
-  margin-right: 1.5rem;
-`;
-
 // Estilização da logo
 const Logo = styled.img`
   height: 9.375rem;
@@ -77,9 +70,6 @@ const LayoutCli = () => {
           <Logo src={logoImage} alt="Logo" />
         </IconButton>
         <div style={{ display: "flex", alignItems: "center" }}>
-          <IconButton onClick={() => navigate("/Historico")}>
-            <History />
-          </IconButton>
           <IconButton onClick={() => navigate("/Carrinho")}>
             <Cart />
           </IconButton>

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FaArrowLeft, FaHistory } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import logoImage from "D:/EJAcotacoes/frontend/src/components/logo.png";
 
@@ -33,13 +33,6 @@ const BackIcon = styled(FaArrowLeft)`
   margin-right: 0.625rem;
 `;
 
-// Estilização do ícone de histórico
-const History = styled(FaHistory)`
-  color: #fff;
-  font-size: 1.25rem;
-  margin-right: 3.125rem;
-`;
-
 // Estilização da logo
 const Logo = styled.img`
   height: 9.375rem;
@@ -68,9 +61,6 @@ const LayoutCart = () => {
         <IconButton onClick={handleBack}>
           <BackIcon />
           <Logo src={logoImage} alt="Logo" />
-        </IconButton>
-        <IconButton onClick={() => navigate("/Historico")}>
-          <History />
         </IconButton>
       </Container>
       <Content />

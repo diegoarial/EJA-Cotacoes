@@ -295,14 +295,26 @@ const Form = ({ getProdutos, onEdit, setOnEdit }) => {
   // Função de salvar
   const handleSave = async (formData) => {
     try {
+      const token = localStorage.getItem("token");
+
       if (onEdit) {
         await axios.put(
           `http://localhost:8800/produto/${onEdit.idProduto}`,
-          formData
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
       } else {
-        await axios.post("http://localhost:8800/produto/", formData);
+        await axios.post("http://localhost:8800/produto/", formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       }
+
       toast.success("Produto salvo com sucesso!");
       getProdutos();
     } catch (error) {

@@ -28,9 +28,7 @@ export const login = (req, res) => {
     const token = jwt.sign(
       { id: administrador.idAdm },
       process.env.JWT_SECRET,
-      {
-        expiresIn: "1h",
-      }
+      { expiresIn: "1h" }
     );
 
     // Retorna o token e os dados do administrador

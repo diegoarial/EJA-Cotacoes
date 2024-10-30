@@ -5,10 +5,13 @@ import {
   editarProduto,
   removerProduto,
 } from "../controllers/produto.js";
+import authMiddleware from "../middlewares/authMiddleware.js";
 
 const produtoRoutes = express.Router();
 
 produtoRoutes.get("/", getProdutos);
+
+produtoRoutes.use(authMiddleware);
 
 produtoRoutes.post("/", cadastrarProduto);
 

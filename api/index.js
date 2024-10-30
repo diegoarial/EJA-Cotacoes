@@ -5,7 +5,8 @@ import carrinhoRoutes from "./routes/carrinho.js";
 import clienteRoutes from "./routes/clientes.js";
 import administradorRoutes from "./routes/administradores.js";
 import authRoutes from "./routes/auth.js";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
+import authMiddleware from "./middlewares/authMiddleware.js";
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ app.use(cors());
 app.use("/produto", produtoRoutes);
 app.use("/carrinho", carrinhoRoutes);
 app.use("/cliente", clienteRoutes);
-app.use("/administrador", administradorRoutes);
+app.use("/administrador", authMiddleware, administradorRoutes);
 app.use("/auth", authRoutes);
 
 app.listen(8800, () => {

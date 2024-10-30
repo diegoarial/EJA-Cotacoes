@@ -54,11 +54,25 @@ function AdmApp() {
   // Deixar em ordem alfabética
   const getFilteredAdms = async (term) => {
     try {
-      const res = await axios.get("http://localhost:8800/administrador/");
+      const token = localStorage.getItem("token");
+      console.log("Token obtido:", token); // Verifica o token
+      const res = await axios.get("http://localhost:8800/administrador/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Resposta da requisição:", res); // Verifica a resposta do servidor
       const filtered = filterAdms(res.data, searchField, searchTerm);
       setAdms(filtered.sort((a, b) => (a.nome > b.nome ? 1 : -1)));
     } catch (error) {
-      toast.error(error);
+      if (error.response?.status === 401) {
+        toast.error("Sessão expirada. Faça login novamente.");
+        window.location.href = "/Login";
+      } else {
+        toast.error(
+          error.response?.data?.message || "Erro ao carregar administradores"
+        );
+      }
     }
   };
 

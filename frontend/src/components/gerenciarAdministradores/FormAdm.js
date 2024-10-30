@@ -28,7 +28,7 @@ const FormContainer = styled.form`
   flex-wrap: wrap;
   background-color: #fff;
   padding: 1.25rem;
-  box-shadow: 0px 0px 0.3125rem #ccc; 
+  box-shadow: 0px 0px 0.3125rem #ccc;
   border-radius: 0.3125rem;
   position: relative;
 `;
@@ -269,14 +269,26 @@ const FormAdm = ({ getAdms, onEdit, setOnEdit }) => {
   // Função de salvar
   const handleSave = async (formData) => {
     try {
+      const token = localStorage.getItem("token");
+
       if (onEdit) {
         await axios.put(
           `http://localhost:8800/administrador/${onEdit.idAdm}`,
-          formData
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
       } else {
-        await axios.post("http://localhost:8800/administrador/", formData);
+        await axios.post("http://localhost:8800/administrador/", formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       }
+
       toast.success("Administrador salvo com sucesso!");
       getAdms();
     } catch (error) {

@@ -5,8 +5,11 @@ import {
   editarAdministrador,
   removerAdministrador,
 } from "../controllers/administrador.js";
+import authMiddleware from "../middlewares/authMiddleware.js";
 
 const administradorRoutes = express.Router();
+
+administradorRoutes.use(authMiddleware);
 
 administradorRoutes.get("/", getAdms);
 

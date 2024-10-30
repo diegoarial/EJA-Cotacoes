@@ -51,11 +51,24 @@ function ProductsApp() {
   // Deixar em ordem alfabética
   const getFilteredProducts = async (term) => {
     try {
-      const res = await axios.get("http://localhost:8800/produto/");
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:8800/produto/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(token);
       const filtered = filterProducts(res.data, searchField, searchTerm);
       setProdutos(filtered.sort((a, b) => (a.titulo > b.titulo ? 1 : -1)));
     } catch (error) {
-      toast.error(error);
+      if (error.response?.status === 401) {
+        toast.error("Sessão expirada. Faça login novamente.");
+        window.location.href = "/Login";
+      } else {
+        toast.error(
+          error.response?.data?.message || "Erro ao carregar produtos"
+        );
+      }
     }
   };
 
