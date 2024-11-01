@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { FaArrowLeft, FaUser } from "react-icons/fa";
+import { FaArrowLeft, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import logoImage from "D:/EJAcotacoes/frontend/src/components/logo.png";
+import Logout from "../Login/Logout";
 
-// Estilização do conteiner superior
+// Estilização do contêiner superior
 const Container = styled.div`
   width: 100%;
   height: 4.375rem;
@@ -19,25 +20,32 @@ const Container = styled.div`
   left: 0;
 `;
 
-// Estilização do botão dentro dos icons
+// Estilização do botão dentro dos ícones
 const IconButton = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
 `;
 
-// Estilização do icon de voltar
+// Estilização do ícone de voltar
 const BackIcon = styled(FaArrowLeft)`
   color: #fff;
   font-size: 1.25rem;
   margin-right: 0.625rem;
 `;
 
-// Estilização do icon de usuario
+// Estilização do ícone de usuário
 const UserIcon = styled(FaUser)`
   color: #fff;
   font-size: 1.25rem;
-  margin-right: 3.125rem;
+  margin-right: 0.5rem; // reduzindo o espaçamento para aproximar do logout
+`;
+
+// Estilização do ícone de logout
+const LogoutIcon = styled(FaSignOutAlt)`
+  color: #fff;
+  font-size: 1.25rem;
+  margin-right: 1.25rem;
 `;
 
 // Estilização da logo
@@ -53,22 +61,35 @@ const Content = styled.div`
   margin-top: 5rem;
 `;
 
-// Organização do conteiner
+// Organização do contêiner
 const Layout = () => {
   const navigate = useNavigate();
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+
+  // Função para abrir o popup de logout
+  const handleLogoutClick = () => {
+    setIsLogoutOpen(true);
+  };
 
   return (
     <>
       <Container>
-        <IconButton onClick={() => navigate(-1)}>
+        <IconButton onClick={handleLogoutClick}>
           <BackIcon />
           <Logo src={logoImage} alt="Logo" />
         </IconButton>
         <IconButton onClick={() => navigate("/Administrador")}>
           <UserIcon />
         </IconButton>
+        <IconButton onClick={handleLogoutClick}>
+          <LogoutIcon />
+        </IconButton>
       </Container>
       <Content />
+      <Logout
+        isOpen={isLogoutOpen}
+        onClose={() => setIsLogoutOpen(false)}
+      />
     </>
   );
 };

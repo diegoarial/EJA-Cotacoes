@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import logoImage from "D:/EJAcotacoes/frontend/src/components/logo.png";
 import LayoutLogin from "./LayoutLogin";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Container = styled.div`
   display: flex;
@@ -18,10 +19,25 @@ const Logo = styled.img`
   margin-bottom: 1.25rem;
 `;
 
-const Input = styled.input`
+const InputGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+`;
+
+const InputContainer = styled.div`
+  position: relative;
   width: 21.875rem;
+  display: flex;
+  align-items: center;
+`;
+
+const Input = styled.input`
+  width: 100%;
   padding: 0.625rem 1.25rem;
-  margin-bottom: 1rem;
+  padding-right: 2.5rem;
   border: 1px solid #ccc;
   border-radius: 0.3125rem;
   font-size: 1rem;
@@ -41,6 +57,7 @@ const ButtonLogin = styled.button`
   background-color: #2c73d2;
   color: white;
   height: 2.625rem;
+  margin-top: 1rem;
   font-size: 1.25rem;
   transition: background-color 0.3s;
 
@@ -49,10 +66,32 @@ const ButtonLogin = styled.button`
   }
 `;
 
+const IconButton = styled.div`
+  position: absolute;
+  right: 0.5rem; /* Deixa o ícone mais próximo da borda direita */
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  transition: transform 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    color: #2c73d2;
+  }
+`;
+
 const Login = () => {
   const [usuarioEmail, setUsuarioEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleLogin = () => {
     const data = {
@@ -76,7 +115,6 @@ const Login = () => {
           setError(data.message || "Erro desconhecido");
         }
       })
-
       .catch((err) => {
         console.error("Erro ao fazer login:", err);
         setError("Erro ao fazer login, tente novamente.");
@@ -85,24 +123,33 @@ const Login = () => {
 
   return (
     <>
-    <LayoutLogin />
-    <Container>
-      <Logo src={logoImage} alt="Logo" />
-      <Input
-        type="text"
-        placeholder="Usuário ou E-mail"
-        value={usuarioEmail}
-        onChange={(e) => setUsuarioEmail(e.target.value)}
-      />
-      <Input
-        type="password"
-        placeholder="Senha"
-        value={senha}
-        onChange={(e) => setSenha(e.target.value)}
-      />
-      {error && <p style={{ color: "red" }}>{error}</p>}{" "}
-      <ButtonLogin onClick={handleLogin}>Entrar</ButtonLogin>
-    </Container>
+      <LayoutLogin />
+      <Container>
+        <Logo src={logoImage} alt="Logo" />
+        <InputGroup>
+          <InputContainer>
+            <Input
+              type="text"
+              placeholder="Usuário ou E-mail"
+              value={usuarioEmail}
+              onChange={(e) => setUsuarioEmail(e.target.value)}
+            />
+          </InputContainer>
+          <InputContainer>
+            <Input
+              type={showPassword ? "text" : "password"}
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+            />
+            <IconButton onClick={togglePasswordVisibility}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </IconButton>
+          </InputContainer>
+        </InputGroup>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <ButtonLogin onClick={handleLogin}>Entrar</ButtonLogin>
+      </Container>
     </>
   );
 };

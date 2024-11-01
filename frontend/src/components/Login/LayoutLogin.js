@@ -52,7 +52,7 @@ const LayoutLogin = () => {
 
   // Função para voltar à página anterior
   const handleBack = () => {
-    navigate(-1);
+    navigate("/");
   };
 
   return (

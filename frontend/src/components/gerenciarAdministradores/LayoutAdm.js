@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import logoImage from "D:/EJAcotacoes/frontend/src/components/logo.png";
+import Logout from "../Login/Logout";
 
 // Estilização do contêiner superior
 const Container = styled.div`
@@ -33,6 +34,13 @@ const BackIcon = styled(FaArrowLeft)`
   margin-right: 0.625rem;
 `;
 
+// Estilização do ícone de carrinho
+const LogoutIcon = styled(FaSignOutAlt)`
+  color: #fff;
+  font-size: 1.25rem;
+  margin-right: 3.125rem;
+`;
+
 // Estilização do logo
 const Logo = styled.img`
   height: 9.375rem;
@@ -49,6 +57,12 @@ const Content = styled.div`
 // Organização do conteiner
 const LayoutAdm = () => {
   const navigate = useNavigate();
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+
+  // Função para abrir o popup de logout
+  const handleLogoutClick = () => {
+    setIsLogoutOpen(true);
+  };
 
   return (
     <>
@@ -57,9 +71,16 @@ const LayoutAdm = () => {
           <BackIcon />
           <Logo src={logoImage} alt="Logo" />
         </IconButton>
+        <IconButton onClick={handleLogoutClick}>
+          <LogoutIcon />
+        </IconButton>
         <IconButton></IconButton>
       </Container>
       <Content />
+      <Logout
+        isOpen={isLogoutOpen}
+        onClose={() => setIsLogoutOpen(false)}
+      />
     </>
   );
 };
