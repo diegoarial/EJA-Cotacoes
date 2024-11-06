@@ -38,7 +38,7 @@ const BackIcon = styled(FaArrowLeft)`
 const UserIcon = styled(FaUser)`
   color: #fff;
   font-size: 1.25rem;
-  margin-right: 0.5rem; // reduzindo o espaçamento para aproximar do logout
+  margin-right: 1.5rem;
 `;
 
 // Estilização do ícone de logout
@@ -55,6 +55,13 @@ const Logo = styled.img`
   position: relative;
   left: -1.25rem;
   top: -0.3125rem;
+`;
+
+// Agrupamento dos ícones de user e logout para organização
+const IconsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
 `;
 
 const Content = styled.div`
@@ -78,12 +85,14 @@ const Layout = () => {
           <BackIcon />
           <Logo src={logoImage} alt="Logo" />
         </IconButton>
-        <IconButton onClick={() => navigate("/Administrador")}>
-          <UserIcon />
-        </IconButton>
-        <IconButton onClick={handleLogoutClick}>
-          <LogoutIcon />
-        </IconButton>
+        <IconsWrapper>
+          <IconButton onClick={() => navigate("/Administrador")}>
+            <UserIcon />
+          </IconButton>
+          <IconButton onClick={handleLogoutClick}>
+            <LogoutIcon />
+          </IconButton>
+        </IconsWrapper>
       </Container>
       <Content />
       <Logout

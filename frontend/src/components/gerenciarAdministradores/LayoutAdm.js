@@ -74,7 +74,6 @@ const LayoutAdm = () => {
         <IconButton onClick={handleLogoutClick}>
           <LogoutIcon />
         </IconButton>
-        <IconButton></IconButton>
       </Container>
       <Content />
       <Logout
