@@ -1,4 +1,6 @@
 import { db } from "../db.js";
+import jwt from "jsonwebtoken";
+
 
 export const getProdutos = (_, res) => {
   const q = "SELECT * FROM produto WHERE status = 'ativo'";
@@ -12,8 +14,21 @@ export const getProdutos = (_, res) => {
 
 //função de cadastrar um novo produto
 export const cadastrarProduto = (req, res) => {
-  const q =
-    "INSERT INTO produto (`titulo`, `precoVenda`, `precoCusto`, `peso`, `altura`, `largura`, `profundidade`) VALUES(?)";
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json("Acesso não autorizado. Token não fornecido.");
+  }
+
+  let idAdm;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    idAdm = decoded.id; 
+  } catch (err) {
+    return res.status(403).json("Token inválido ou expirado.");
+  }
+
+  const query =
+    "INSERT INTO produto (`titulo`, `precoVenda`, `precoCusto`, `peso`, `altura`, `largura`, `profundidade`, `idAdm`) VALUES(?)";
 
   const values = [
     req.body.titulo,
@@ -23,12 +38,16 @@ export const cadastrarProduto = (req, res) => {
     req.body.altura,
     req.body.largura,
     req.body.profundidade,
+    idAdm,
   ];
 
-  db.query(q, [values], (err) => {
-    if (err) return res.json(err);
+  db.query(query, [values], (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json("Erro ao cadastrar o produto.");
+    }
 
-    return res.status(200).json("Produto cadastrado com sucesso.");
+    res.status(200).json("Produto cadastrado com sucesso.");
   });
 };
 

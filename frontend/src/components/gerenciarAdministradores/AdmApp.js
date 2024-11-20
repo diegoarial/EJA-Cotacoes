@@ -55,13 +55,11 @@ function AdmApp() {
   const getFilteredAdms = async (term) => {
     try {
       const token = localStorage.getItem("token");
-      console.log("Token obtido:", token); // Verifica o token
       const res = await axios.get("http://localhost:8800/administrador/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Resposta da requisição:", res); // Verifica a resposta do servidor
       const filtered = filterAdms(res.data, searchField, searchTerm);
       setAdms(filtered.sort((a, b) => (a.nome > b.nome ? 1 : -1)));
     } catch (error) {

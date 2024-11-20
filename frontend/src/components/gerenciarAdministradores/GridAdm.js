@@ -164,7 +164,7 @@ const GridAdm = ({ adms, setAdms, setOnEdit }) => {
                 {item.nome} {item.sobrenome}
               </Td>
               <Td width="30%">{item.email}</Td>
-              <Td width="15%">{item.telefone}</Td>
+              <Td width="20%">{item.telefone}</Td>
               <Td style={{ textAlign: "center" }} width="5%">
                 <IconContainer>
                   <EditIcon onClick={() => handleEdit(item)} />

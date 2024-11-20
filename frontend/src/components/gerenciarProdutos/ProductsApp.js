@@ -57,7 +57,6 @@ function ProductsApp() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(token);
       const filtered = filterProducts(res.data, searchField, searchTerm);
       setProdutos(filtered.sort((a, b) => (a.titulo > b.titulo ? 1 : -1)));
     } catch (error) {

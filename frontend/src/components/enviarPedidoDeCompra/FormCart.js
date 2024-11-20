@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { VscClose } from "react-icons/vsc";
 import { toast } from "react-toastify";
-import axios from "axios";
 
 // Estilização do pop-up
 const PopupContainer = styled.div`
@@ -105,43 +104,61 @@ const PopupTitle = styled.h2`
 const FormCart = ({ onSave, onClose, cliente }) => {
   const ref = useRef();
   const [formData, setFormData] = useState(cliente || {});
+  const [telefone, setTelefone] = useState(cliente?.telefone || "");
 
-  const validateCPF = (cpf) => {
-    const regex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
-    return regex.test(cpf);
+  const formatCPF = (value) => {
+    let numericValue = value.replace(/\D/g, "");
+  
+
+    if (numericValue.length > 11) {
+      numericValue = numericValue.slice(0, 11);
+    }
+  
+
+    if (numericValue.length > 3) {
+      numericValue = `${numericValue.slice(0, 3)}.${numericValue.slice(3)}`;
+    }
+    if (numericValue.length > 6) {
+      numericValue = `${numericValue.slice(0, 7)}.${numericValue.slice(7)}`;
+    }
+    if (numericValue.length > 9) {
+      numericValue = `${numericValue.slice(0, 11)}-${numericValue.slice(11)}`;
+    }
+  
+    setFormData((prev) => ({ ...prev, cpf: numericValue }));
+  };
+  
+
+  const handleKeyDownCPF = (e) => {
+    const allowedKeys = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"];
+    const isNumberKey = /^[0-9]$/.test(e.key);
+  
+    if (!isNumberKey && !allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
   };
 
-  const validateTelefone = (telefone) => {
-    const regex = /^\(\d{2}\) \d{5}-\d{4}$/;
-    return regex.test(telefone);
+  const formatTelefone = (value) => {
+    let numericValue = value.replace(/\D/g, "");
+  
+    if (numericValue.length > 11) {
+      numericValue = numericValue.slice(0, 11);
+    }
+    if (numericValue.length === 11) {
+      numericValue = numericValue.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+    } else if (numericValue.length === 10) {
+      numericValue = numericValue.replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
+    }
+  
+    setTelefone(numericValue);
   };
-
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
-  const handleCPFBlur = async (e) => {
-    const cpf = e.target.value;
-
-    if (validateCPF(cpf)) {
-      try {
-        const response = await axios.get(
-          `http://localhost:8800/cliente/${cpf}`
-        );
-        if (response.data) {
-          setFormData(response.data);
-          toast.info("Cliente encontrado e dados preenchidos!");
-        }
-      } catch (error) {
-        if (error.response.status === 404) {
-          toast.warn("Cliente não encontrado. Insira os dados manualmente.");
-        } else {
-          toast.error("Erro ao buscar cliente. Tente novamente.");
-        }
-      }
-    } else {
-      toast.error("CPF inválido! Use o formato xxx.xxx.xxx-xx.");
+  
+  const handleKeyDown = (e) => {
+    const allowedKeys = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"];
+    const isNumberKey = /^[0-9]$/.test(e.key);
+  
+    if (!isNumberKey && !allowedKeys.includes(e.key)) {
+      e.preventDefault();
     }
   };
 
@@ -160,23 +177,11 @@ const FormCart = ({ onSave, onClose, cliente }) => {
       return toast.warn("Preencha todos os campos!");
     }
 
-    if (!validateCPF(clienteForm.cpf.value)) {
-      return toast.error("CPF inválido! Use o formato xxx.xxx.xxx-xx.");
-    }
-
-    if (!validateTelefone(clienteForm.telefone.value)) {
-      return toast.error("Telefone inválido! Use o formato (xx) xxxxx-xxxx.");
-    }
-
-    if (!validateEmail(clienteForm.email.value)) {
-      return toast.error("Email inválido! Use o formato xxx@xxx.xxx.");
-    }
-
     await onSave({
       cpf: clienteForm.cpf.value,
       nome: clienteForm.nome.value,
       sobrenome: clienteForm.sobrenome.value,
-      telefone: clienteForm.telefone.value,
+      telefone,
       email: clienteForm.email.value,
       empresa: clienteForm.empresa.value,
     });
@@ -197,9 +202,8 @@ const FormCart = ({ onSave, onClose, cliente }) => {
             maxLength="14"
             type="text"
             value={formData.cpf || ""}
-            placeholder="xxx.xxx.xxx-xx"
-            onBlur={handleCPFBlur}
-            onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
+            onChange={(e) => formatCPF(e.target.value)}
+            onKeyDown={handleKeyDownCPF}
           />
         </InputArea>
         <InputArea>
@@ -230,11 +234,9 @@ const FormCart = ({ onSave, onClose, cliente }) => {
             name="telefone"
             maxLength="15"
             type="text"
-            value={formData.telefone || ""}
-            placeholder="(xx) xxxxx-xxxx"
-            onChange={(e) =>
-              setFormData({ ...formData, telefone: e.target.value })
-            }
+            defaultValue={cliente ? cliente.telefone : ""}
+            onChange={(e) => formatTelefone(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
         </InputArea>
         <InputArea>
@@ -244,7 +246,6 @@ const FormCart = ({ onSave, onClose, cliente }) => {
             maxLength="100"
             type="email"
             value={formData.email || ""}
-            placeholder="xxx@xxx.xxx"
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }

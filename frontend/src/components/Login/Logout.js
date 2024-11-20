@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { VscClose } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const PopupContainer = styled.div`
   position: fixed;
@@ -74,8 +73,10 @@ const Logout = ({ isOpen, onClose }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    toast.success("Você foi desconectado!");
-    navigate("/login");
+    setTimeout(() => {
+      localStorage.setItem("logoutSuccess", "true");
+      navigate("/login");
+    }, 100);
   };
 
   return (

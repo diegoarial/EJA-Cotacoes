@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import logoImage from "D:/EJAcotacoes/frontend/src/components/logo.png";
+import logoImage from "D:/EJAcotacoes/frontend/src/components/logo2.png";
 import LayoutLogin from "./LayoutLogin";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Container = styled.div`
   display: flex;
@@ -68,7 +70,7 @@ const ButtonLogin = styled.button`
 
 const IconButton = styled.div`
   position: absolute;
-  right: 0.5rem; /* Deixa o ícone mais próximo da borda direita */
+  right: 0.5rem;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -88,6 +90,14 @@ const Login = () => {
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    const logoutSuccess = localStorage.getItem("logoutSuccess");
+    if (logoutSuccess === "true") {
+      toast.success("Logout realizado com sucesso!");
+      localStorage.removeItem("logoutSuccess");
+    }
+  }, []);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -110,6 +120,7 @@ const Login = () => {
       .then((data) => {
         if (data.token) {
           localStorage.setItem("token", data.token);
+          toast.success("Login realizado com sucesso!");
           window.location.href = "/Produtos";
         } else {
           setError(data.message || "Erro desconhecido");

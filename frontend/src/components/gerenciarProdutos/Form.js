@@ -147,6 +147,13 @@ const ButtonCancel = styled.button`
   height: 2.625rem;
 `;
 
+const PopupTitle = styled.h2`
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.3125rem;
+  color: #333;
+`;
+
 // Obriga a preencher todos os campos para salvar
 const PopupForm = ({ onSave, onClose, produto }) => {
   const ref = useRef();
@@ -186,6 +193,7 @@ const PopupForm = ({ onSave, onClose, produto }) => {
         <CloseButton onClick={onClose}>
           <VscClose />
         </CloseButton>
+        <PopupTitle>Cadastrar novo Produto</PopupTitle>
         <InputArea>
           <Label>Título</Label>
           <InputTitle

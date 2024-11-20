@@ -64,8 +64,15 @@ const InputContainer = styled.div`
   align-items: center;
 `;
 
+const WarningText = styled.span`
+  color: red;
+  font-size: 0.875rem;
+  position: absolute;
+  top: 3rem;
+`;
+
 // Tamanho da caixa de input do título
-const InputTitle = styled.input`
+const InputUser = styled.input`
   width: 45.625rem;
   padding: 0 0.625rem;
   border: 1px solid #bbb;
@@ -75,8 +82,17 @@ const InputTitle = styled.input`
 `;
 
 // Tamanho da caixa de input dos preços com restrições de números e decimais
-const InputPrice = styled.input`
-  width: 18.25rem;
+const InputEmail = styled.input`
+  width: 21.1rem;
+  padding: 0 0.625rem;
+  border: 1px solid #bbb;
+  border-radius: 0.3125rem;
+  height: 2.5rem;
+  max-width: 100%;
+`;
+
+const InputPassword = styled.input`
+  width: 21.1rem;
   padding: 0 0.625rem;
   border: 1px solid #bbb;
   border-radius: 0.3125rem;
@@ -85,8 +101,18 @@ const InputPrice = styled.input`
 `;
 
 // Tamanho das caixas de input das medidas
-const InputMeasures = styled.input`
-  width: 8.9375rem;
+const InputCell = styled.input`
+  width: 13rem;
+  padding: 0 0.625rem;
+  border: 1px solid #bbb;
+  border-radius: 0.3125rem;
+  height: 2.5rem;
+  max-width: 100%;
+`;
+
+// Tamanho das caixas de input das medidas
+const InputNames = styled.input`
+  width: 13rem;
   padding: 0 0.625rem;
   border: 1px solid #bbb;
   border-radius: 0.3125rem;
@@ -144,32 +170,80 @@ const ButtonCancel = styled.button`
   height: 2.625rem;
 `;
 
+const PopupTitle = styled.h2`
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.3125rem;
+  color: #333;
+`;
+
 // Obriga a preencher todos os campos para salvar
 const PopupForm = ({ onSave, onClose, adm }) => {
   const ref = useRef();
+  const [usuario, setUsuario] = useState(adm?.usuario || "");
+  const [telefone, setTelefone] = useState(adm?.telefone || "");
+  const [warnings, setWarnings] = useState({ usuario: "", email: "", telefone: "" });
+  
+
+  const validateUsuario = (value) => {
+    if (value.length > 20) {
+      setWarnings((prev) => ({ ...prev, usuario: "Usuário deve ter até 20 caracteres." }));
+    } else {
+      setWarnings((prev) => ({ ...prev, usuario: "" }));
+    }
+    setUsuario(value);
+  };
+
+  const formatTelefone = (value) => {
+    let numericValue = value.replace(/\D/g, ""); // Remove caracteres não numéricos
+  
+    // Limita o número de dígitos a 11
+    if (numericValue.length > 11) {
+      numericValue = numericValue.slice(0, 11);
+    }
+  
+    // Aplica a formatação
+    if (numericValue.length === 11) {
+      numericValue = numericValue.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+    } else if (numericValue.length === 10) {
+      numericValue = numericValue.replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
+    }
+  
+    setTelefone(numericValue);
+  };
+  
+  // Função para filtrar entradas no teclado
+  const handleKeyDown = (e) => {
+    // Permite apenas números, backspace, delete, setas e tab
+    const allowedKeys = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"];
+    const isNumberKey = /^[0-9]$/.test(e.key);
+  
+    if (!isNumberKey && !allowedKeys.includes(e.key)) {
+      e.preventDefault(); // Bloqueia a tecla
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const admForm = ref.current;
 
-    if (
-      !admForm.usuario.value ||
-      !admForm.email.value ||
-      !admForm.senha.value ||
-      !admForm.nome.value ||
-      !admForm.sobrenome.value ||
-      !admForm.telefone.value
-    ) {
-      return toast.warn("Preencha todos os campos!");
+    // Verifica se algum campo está vazio
+    if (!usuario || !telefone || !ref.current.email.value ||  !ref.current.nome.value || !ref.current.sobrenome.value || !ref.current.senha.value) {
+      return toast.warn("Preencha todos os campos antes de salvar.");
     }
 
+    // Checa se existem mensagens de aviso
+    if (warnings.usuario || warnings.email || warnings.telefone) {
+      return toast.warn("Corrija os erros antes de salvar.");
+    }
+
+    // Procede com o salvamento
     await onSave({
-      usuario: admForm.usuario.value,
-      email: admForm.email.value,
-      senha: admForm.senha.value,
-      nome: admForm.nome.value,
-      sobrenome: admForm.sobrenome.value,
-      telefone: admForm.telefone.value,
+      usuario,
+      telefone,
+      email: ref.current.email.value,      
+      nome: ref.current.nome.value,
+      sobrenome: ref.current.sobrenome.value,
+      senha: ref.current.senha.value,
     });
     onClose();
   };
@@ -181,30 +255,37 @@ const PopupForm = ({ onSave, onClose, adm }) => {
         <CloseButton onClick={onClose}>
           <VscClose />
         </CloseButton>
+        <PopupTitle>Cadastrar novo Administrador</PopupTitle>
+        
         <InputArea>
           <Label>Usuário</Label>
-          <InputTitle
+          <InputUser
             name="usuario"
             maxLength="20"
             type="text"
             defaultValue={adm ? adm.usuario : ""}
+            onChange={(e) => validateUsuario(e.target.value)}
           />
+          {warnings.usuario && <WarningText>{warnings.usuario}</WarningText>}
         </InputArea>
+        
         <InputArea>
           <Label>E-mail</Label>
           <InputContainer>
-            <InputPrice
+            <InputEmail
               name="email"
               maxLength="100"
-              type="text"
+              type="email"
               defaultValue={adm ? adm.email : ""}
             />
           </InputContainer>
+          {warnings.email && <WarningText>{warnings.email}</WarningText>}
         </InputArea>
+        
         <InputArea>
           <Label>Senha</Label>
           <InputContainer>
-            <InputPrice
+            <InputPassword
               name="senha"
               maxLength="30"
               type="text"
@@ -212,10 +293,11 @@ const PopupForm = ({ onSave, onClose, adm }) => {
             />
           </InputContainer>
         </InputArea>
+        
         <InputArea>
           <Label>Nome</Label>
           <InputContainer>
-            <InputMeasures
+            <InputNames
               name="nome"
               maxLength="20"
               type="text"
@@ -223,10 +305,11 @@ const PopupForm = ({ onSave, onClose, adm }) => {
             />
           </InputContainer>
         </InputArea>
+        
         <InputArea>
           <Label>Sobrenome</Label>
           <InputContainer>
-            <InputMeasures
+            <InputNames
               name="sobrenome"
               maxLength="30"
               type="text"
@@ -234,17 +317,22 @@ const PopupForm = ({ onSave, onClose, adm }) => {
             />
           </InputContainer>
         </InputArea>
+        
         <InputArea>
           <Label>Telefone</Label>
           <InputContainer>
-            <InputMeasures
+            <InputCell
               name="telefone"
               maxLength="15"
               type="text"
               defaultValue={adm ? adm.telefone : ""}
+              onChange={(e) => formatTelefone(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </InputContainer>
+          {warnings.telefone && <WarningText>{warnings.telefone}</WarningText>}
         </InputArea>
+        
         <ButtonContainer>
           <ButtonSave type="submit">SALVAR</ButtonSave>
           <ButtonCancel type="button" onClick={onClose}>
@@ -253,7 +341,7 @@ const PopupForm = ({ onSave, onClose, adm }) => {
         </ButtonContainer>
       </FormContainer>
     </PopupContainer>
-  );
+  );  
 };
 
 // Função do formulário
