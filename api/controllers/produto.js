@@ -14,18 +14,9 @@ export const getProdutos = (_, res) => {
 
 //função de cadastrar um novo produto
 export const cadastrarProduto = (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) {
-    return res.status(401).json("Acesso não autorizado. Token não fornecido.");
-  }
-
-  let idAdm;
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    idAdm = decoded.id; 
-  } catch (err) {
-    return res.status(403).json("Token inválido ou expirado.");
-  }
+  console.log("Iniciando cadastro de produto...");
+  console.log("Usuário autenticado ID:", req.userId);
+  const idAdm = req.userId;
 
   const query =
     "INSERT INTO produto (`titulo`, `precoVenda`, `precoCusto`, `peso`, `altura`, `largura`, `profundidade`, `idAdm`) VALUES(?)";

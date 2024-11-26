@@ -5,6 +5,9 @@
 /api/node_modules
 /.pnp
 .pnp.js
+/__tests__
+/api/babel.config.cjs
+/api/jest.config.cjs
 
 # testing
 /coverage

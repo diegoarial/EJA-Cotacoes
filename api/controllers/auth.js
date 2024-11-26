@@ -14,14 +14,14 @@ export const login = (req, res) => {
     }
 
     if (results.length === 0) {
-      return res.status(401).json({ message: "Credenciais inválidas" });
+      return res.status(404).json({ message: "Usuário não encontrado" });
     }
 
     const administrador = results[0];
 
     // Verifica se a senha corresponde à do banco de dados
     if (senha !== administrador.senha) {
-      return res.status(401).json({ message: "Credenciais inválidas" });
+      return res.status(401).json({ message: "Senha inválida" });
     }
 
     // Gera o token JWT

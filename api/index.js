@@ -22,6 +22,10 @@ app.use("/cliente", clienteRoutes);
 app.use("/administrador", authMiddleware, administradorRoutes);
 app.use("/auth", authRoutes);
 
-app.listen(8800, () => {
-  console.log("Servidor rodando na porta 8800");
-});
+if (process.env.NODE_ENV !== "test") {
+  app.listen(8800, () => {
+    console.log("Servidor rodando na porta 8800");
+  });
+}
+
+export default app;
