@@ -40,8 +40,8 @@ describe("CRUD Produtos", () => {
           profundidade: 100,
         });
 
-      console.log("Status da resposta:", response.status);  // Verifique o status da resposta
-      console.log("Resposta do corpo:", response.body);  // Verifique o corpo da resposta
+      console.log("Status da resposta:", response.status);
+      console.log("Resposta do corpo:", response.body);
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty("message", "Produto cadastrado com sucesso.");

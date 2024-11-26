@@ -6,6 +6,8 @@ import Cart from "./components/enviarPedidoDeCompra/Cart";
 import Client from "./components/cotarProdutos/Client";
 import AdmApp from "./components/gerenciarAdministradores/AdmApp";
 import Login from "./components/Login/Login";
+import ResetPassword from "./components/Login/ResetPassword";
+
 
 const App = () => {
   return (
@@ -18,6 +20,7 @@ const App = () => {
           <Route path="/Carrinho" element={<Cart />} />
           <Route path="/Cliente" element={<Client />} />
           <Route path="/Administrador" element={<AdmApp />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
       </div>
     </Router>

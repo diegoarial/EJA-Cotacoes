@@ -125,6 +125,7 @@ const FormCart = ({ onSave, onClose, cliente }) => {
       numericValue = `${numericValue.slice(0, 11)}-${numericValue.slice(11)}`;
     }
   
+    console.log("CPF formatado no frontend:", numericValue);
     setFormData((prev) => ({ ...prev, cpf: numericValue }));
   };
   
@@ -176,6 +177,8 @@ const FormCart = ({ onSave, onClose, cliente }) => {
     ) {
       return toast.warn("Preencha todos os campos!");
     }
+
+    console.log("CPF enviado para o backend:", clienteForm.cpf.value);
 
     await onSave({
       cpf: clienteForm.cpf.value,

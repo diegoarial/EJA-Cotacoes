@@ -5,6 +5,7 @@ import LayoutLogin from "./LayoutLogin";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ForgotPass from "./ForgotPass";
 
 const Container = styled.div`
   display: flex;
@@ -62,6 +63,9 @@ const ButtonLogin = styled.button`
   margin-top: 1rem;
   font-size: 1.25rem;
   transition: background-color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     background-color: #0056b3;
@@ -85,11 +89,27 @@ const IconButton = styled.div`
   }
 `;
 
+const ForgotPasswordText = styled.p`
+  margin-top: 0.5rem;
+  color: #2c73d2;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #0056b3;
+  }
+`;
+
 const Login = () => {
   const [usuarioEmail, setUsuarioEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isForgotOpen, setIsForgotOpen] = useState(false);
+
+  const handleForgotPassword = () => setIsForgotOpen(true);
 
   useEffect(() => {
     const logoutSuccess = localStorage.getItem("logoutSuccess");
@@ -159,8 +179,12 @@ const Login = () => {
           </InputContainer>
         </InputGroup>
         {error && <p style={{ color: "red" }}>{error}</p>}
+        <ForgotPasswordText onClick={handleForgotPassword}>
+          Esqueci minha senha?
+        </ForgotPasswordText>
         <ButtonLogin onClick={handleLogin}>Entrar</ButtonLogin>
       </Container>
+      <ForgotPass isOpen={isForgotOpen} onClose={() => setIsForgotOpen(false)} />
     </>
   );
 };
